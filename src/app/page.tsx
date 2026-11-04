@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ViewTransition, type CSSProperties } from "react";
+import { Cmd } from "@/components/Cmd";
 import { Film } from "@/components/Film";
 import { Loader } from "@/components/Loader";
 import { coverOf, projects } from "@/content/projects";
@@ -157,9 +158,9 @@ export default function Home() {
       </Film>
 
       <section id="work" className="section" aria-labelledby="work-title">
-        <h2 id="work-title" className="section__title">
-          Work
-        </h2>
+        <Cmd id="work-title" label="Work">
+          ls ~/work
+        </Cmd>
         <p className="section__lede">
           A company&rsquo;s accounting system in daily use, its new operations system, and an independent compliance
           platform first; then a client&rsquo;s three-app product and the sites that show off the front end.
@@ -195,9 +196,9 @@ export default function Home() {
       </section>
 
       <section id="beyond" className="section" aria-labelledby="beyond-title">
-        <h2 id="beyond-title" className="section__title">
-          Beyond the code
-        </h2>
+        <Cmd id="beyond-title" label="Beyond the code">
+          cat beyond-the-code.md
+        </Cmd>
         <p className="section__lede">
           Software only works if the people using it do. At Ashar I am also the one who turns the work into rules,
           moves it off spreadsheets, and keeps the office running.
@@ -216,9 +217,9 @@ export default function Home() {
       </section>
 
       <section id="about" className="section" aria-labelledby="exp-title">
-        <h2 id="exp-title" className="section__title">
-          Experience
-        </h2>
+        <Cmd id="exp-title" label="Experience">
+          cat experience.log
+        </Cmd>
         <div className="about">
           <ol className="timeline">
             {experience.map((e) => (
@@ -257,9 +258,9 @@ export default function Home() {
       </section>
 
       <section id="contact" className="section section--contact" aria-labelledby="contact-title">
-        <h2 id="contact-title" className="section__title">
-          Contact
-        </h2>
+        <Cmd id="contact-title" label="Contact">
+          ./contact --hire
+        </Cmd>
         <p className="contact__big">
           <a href={`mailto:${site.email}`}>{site.email}</a>
         </p>
