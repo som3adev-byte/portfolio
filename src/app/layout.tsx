@@ -60,7 +60,7 @@ const jsonLd = {
   jobTitle: site.role,
   email: `mailto:${site.email}`,
   url: site.url,
-  sameAs: [site.github],
+  sameAs: [site.github, site.linkedin],
   address: { "@type": "PostalAddress", addressLocality: "Al-Ula", addressCountry: "SA" },
 };
 
@@ -99,7 +99,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {site.name} · {site.location}
           </p>
           <p>
-            <a href={`mailto:${site.email}`}>{site.email}</a> · <a href={site.github} rel="me">GitHub</a> · <Link href="/cv">CV</Link>
+            <a href={`mailto:${site.email}`}>{site.email}</a> · <a href={site.github} rel="me">GitHub</a> · <a href={site.linkedin} rel="me">LinkedIn</a> · <Link href="/cv">CV</Link>
           </p>
         </footer>
         <Cursor />

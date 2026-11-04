@@ -33,6 +33,7 @@ export default function CV() {
           <a href={site.phone.href}>{site.phone.label}</a>
           <span>{site.location}</span>
           <a href={site.github}>{short(site.github)}</a>
+          <a href={site.linkedin}>{short(site.linkedin).replace("www.", "")}</a>
         </p>
       </header>
 

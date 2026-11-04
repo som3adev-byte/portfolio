@@ -274,6 +274,11 @@ export default function Home() {
             </a>
           </li>
           <li>
+            <a href={site.linkedin} rel="me">
+              LinkedIn
+            </a>
+          </li>
+          <li>
             Video and ads go through my agency, <a href="https://codecutclick.com">Code Cut Click</a>
           </li>
         </ul>
