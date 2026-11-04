@@ -58,8 +58,9 @@ export default function CV() {
           </div>
           <ul>
             <li>
-              Built two production systems end to end, alone: accounting for the tourism arm, in daily use since May
-              2026, and operations for the hotels, staff and stock (HR, GPS attendance, payroll, bookings, invoices).
+              Built the company&rsquo;s two systems end to end, alone: accounting for the tourism arm, in daily use
+              since May 2026, and a new operations system for the hotels, staff and stock (HR, GPS attendance,
+              payroll, bookings, invoices), built and tested and preparing to go live.
             </li>
             <li>
               Wrote the business rules with each department before building, then moved the records and opening

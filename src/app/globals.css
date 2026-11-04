@@ -2060,3 +2060,142 @@ html:not(.film-on) .beat--hero h1 {
   justify-items: start;
   gap: 0.2rem 1.25rem;
 }
+
+/* ---------- Hero: status, accent phrase, proof, scroll cue ---------- */
+
+.hero__status {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.4rem 0.8rem 0.4rem 0.65rem;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 70%, transparent);
+  backdrop-filter: blur(6px);
+  font: 500 0.75rem/1 var(--mono);
+}
+
+.hero__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent);
+}
+
+.hero__claim em {
+  font-style: normal;
+  color: var(--accent);
+}
+
+.hero__proof {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  justify-content: start;
+  gap: 0 1.5rem;
+  margin-top: 0.4rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--rule);
+}
+
+.hero__proof li {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.hero__proof strong {
+  font: 700 0.9375rem/1.1 var(--display);
+  font-stretch: 112%;
+}
+
+.hero__proof span {
+  font: 400 0.6875rem/1.35 var(--mono);
+  color: var(--muted);
+}
+
+.hero__cue {
+  display: none;
+}
+
+.film-on .hero__cue {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: absolute;
+  inset-inline-start: 5vw;
+  bottom: max(1.5rem, env(safe-area-inset-bottom));
+  font: 500 0.6875rem/1 var(--mono);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.film-on .hero__cue::after {
+  content: "";
+  width: 56px;
+  height: 1px;
+  background: currentColor;
+  transform-origin: 0 50%;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 55%, transparent); }
+  100% { box-shadow: 0 0 0 10px transparent; }
+}
+
+@keyframes cue {
+  0%, 100% { transform: scaleX(0.25); }
+  50% { transform: scaleX(1); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero__dot {
+    animation: pulse 1.8s var(--ease-out) infinite;
+  }
+  .film-on .hero__cue::after {
+    animation: cue 2.4s var(--ease-move) infinite;
+  }
+  html:not(.loading) .beat--hero .beat__in > :nth-child(6) { animation-delay: 400ms; }
+}
+
+@media (max-width: 600px) {
+  .hero__proof {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0 0.75rem;
+  }
+  .hero__proof strong {
+    font-size: 0.8125rem;
+  }
+  .hero__proof span {
+    font-size: 0.625rem;
+  }
+}
+
+.hero__proof {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0 1rem;
+}
+
+@media (max-width: 600px) {
+  .hero__where {
+    display: none;
+  }
+  .film-on .hero__proof {
+    padding: 0.75rem 0.85rem;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    background: color-mix(in srgb, #fff 78%, transparent);
+    backdrop-filter: blur(8px);
+  }
+  .film-on .beat--hero .beat__in {
+    inset-block-start: 8svh;
+    gap: 0.9rem;
+  }
+}
+
+@media (orientation: landscape) and (min-width: 761px) {
+  .film-on .beat--hero .hero__proof {
+    max-width: min(27rem, 30vw);
+  }
+}

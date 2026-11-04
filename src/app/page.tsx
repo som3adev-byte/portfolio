@@ -17,6 +17,10 @@ export default function Home() {
       <Film>
         <section data-beat="hero" className="beat beat--hero" aria-labelledby="hero-title">
           <div className="beat__in">
+            <p className="hero__status">
+              <span className="hero__dot" aria-hidden="true" /> Open to roles &amp; projects
+              <span className="hero__where"> · {site.location}</span>
+            </p>
             <h1 id="hero-title" className="hero__name" aria-label={site.name}>
               {site.name.split(" ").map((word, w) => (
                 <span key={word} className="line" aria-hidden="true">
@@ -29,11 +33,8 @@ export default function Home() {
               ))}
             </h1>
             <p className="eyebrow">{site.role}</p>
-            <p className="hero__claim">{site.headline}</p>
-            <p className="hero__meta">
-              {site.location}
-              <br />
-              {site.availability}
+            <p className="hero__claim">
+              I turn <em>the way a company works</em> into the software it runs on.
             </p>
             <p className="actions">
               <Link className="btn btn--solid" href="/#work">
@@ -43,7 +44,24 @@ export default function Home() {
                 Download CV
               </a>
             </p>
+            <ul className="hero__proof">
+              <li>
+                <strong>In daily use</strong>
+                <span>Ashar accounting, since May 2026</span>
+              </li>
+              <li>
+                <strong>103 tests</strong>
+                <span>Mizan, open source</span>
+              </li>
+              <li>
+                <strong>Built alone</strong>
+                <span>from the rules to the deploy</span>
+              </li>
+            </ul>
           </div>
+          <p className="hero__cue" aria-hidden="true">
+            Scroll
+          </p>
           {/* Shown only when the film is not running: the hero's picture, drawn in type. */}
           <div className="hero__term" aria-hidden="true">
             <p className="hero__cmd">$ whoami</p>
@@ -143,8 +161,8 @@ export default function Home() {
           Work
         </h2>
         <p className="section__lede">
-          Two systems a company in Al-Ula runs on every day and an independent compliance platform first, then a
-          client&rsquo;s three-app product and the sites that show off the front end.
+          A company&rsquo;s accounting system in daily use, its new operations system, and an independent compliance
+          platform first; then a client&rsquo;s three-app product and the sites that show off the front end.
         </p>
         <ul className="cards cards--main">
           {projects.map((p) => {
