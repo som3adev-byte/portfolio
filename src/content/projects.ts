@@ -47,7 +47,7 @@ export const projects: Project[] = [
     status: "Built and tested. Preparing to replace the old system.",
     summary:
       "One system for a hotel and trading company in Al-Ula: employees, GPS-verified attendance, leave, payroll, hotel bookings, housekeeping, inventory, purchasing, tax invoices and maintenance. Arabic-first, and built for the phone, because most of the people using it are at a reception desk or walking a corridor.",
-    role: "Sole developer, and the person who runs it with the staff: specification, data model, application, tests, deployment, training and daily support.",
+    role: "Built it end to end, alone, and run it with the staff: specification, data model, application, tests, deployment, training and daily support.",
     stack: ["Next.js 16", "React 19", "TypeScript", "Prisma 7", "PostgreSQL", "Zod 4", "decimal.js", "Upstash Redis", "Web Push", "Vitest", "Playwright"],
     closed: "Internal company system. The code is private; screenshots use seeded demo data.",
     numbers: [
@@ -121,7 +121,7 @@ export const projects: Project[] = [
     status: "In production and in daily use since May 2026.",
     summary:
       "A tourism company ran its accounts in Excel. The numbers did not reconcile between files, and every month the reports were rebuilt by hand. This system replaced that: expenses, revenue, payables, receivables, client and supplier payments, and reports that export to Arabic PDF and Excel.",
-    role: "Sole developer: data model, application, exports and authentication, and the move off Excel.",
+    role: "Built it end to end, alone: data model, application, exports and authentication, and the move off Excel.",
     stack: ["Next.js 16", "TypeScript", "Prisma 7", "PostgreSQL (Neon)", "Zod", "Tailwind", "jsPDF", "SheetJS"],
     closed: "Internal company system. The code is private, and its screens show the company's real figures, so the money flow is drawn here instead.",
     figures: [
@@ -179,7 +179,7 @@ export const projects: Project[] = [
     status: "Feature-complete for a first release. Not yet adopted by an entity.",
     summary:
       "Saudi government entities must comply with the National Cybersecurity Authority's Essential Cybersecurity Controls and prove it to an auditor. The status usually lives in spreadsheets, where gaps and expired evidence go unnoticed. Mizan tracks all 200 controls and subcontrols, their owners, evidence and remediation, and raises what needs attention on its own. An independent project, not affiliated with the Authority.",
-    role: "Sole developer: product, design system, API, database and tests.",
+    role: "Built it end to end, alone: product, design system, API, database and tests.",
     stack: ["Next.js 16", "NestJS 12", "PostgreSQL 17", "Prisma 7", "next-intl", "Tailwind 4", "Vitest", "Docker", "GitHub Actions"],
     live: "https://mizan-eight-red.vercel.app",
     repo: "https://github.com/som3adev-byte/mizan",
@@ -226,7 +226,7 @@ export const projects: Project[] = [
     status: "Built. Waiting on the business for launch details.",
     summary:
       "A laundry in Saudi Arabia takes orders over WhatsApp and the phone, and they get mixed up as it grows. This system covers clothes, shoes, bedding and carpets, and car washing at the customer's home: a customer app with upfront prices, a field app for drivers and technicians, and a dashboard that is also the API.",
-    role: "Sole developer across all three apps and the shared domain package.",
+    role: "Built it end to end, alone: all three apps and the shared domain package.",
     stack: ["Next.js 16", "Drizzle ORM", "PostgreSQL", "Expo 58", "React Native", "TypeScript", "Turborepo", "Vitest", "GitHub Actions"],
     closed: "Client project. The code is private; screenshots use the seeded demo data.",
     numbers: [["3", "apps sharing one domain package"], ["76", "tests across 8 files"]],

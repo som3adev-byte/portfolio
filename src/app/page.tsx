@@ -62,7 +62,7 @@ export default function Home() {
               </div>
               <div>
                 <dt>now</dt>
-                <dd>Sole developer, Ashar Company</dd>
+                <dd>Ashar Company, built end to end, alone</dd>
               </div>
               <div>
                 <dt>builds</dt>
@@ -87,7 +87,7 @@ export default function Home() {
             <dl className="ledger">
               <div>
                 <dt>Now</dt>
-                <dd>Sole developer at Ashar Company since Jan 2025</dd>
+                <dd>Ashar Company since Jan 2025, built end to end, alone</dd>
               </div>
               <div>
                 <dt>Builds</dt>

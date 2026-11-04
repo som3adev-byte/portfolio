@@ -16,7 +16,7 @@ export const experience = [
     org: "Ashar Company, Al-Ula, Saudi Arabia",
     period: "Jan 2025 – Present",
     points: [
-      "Sole developer of the company's internal software: an accounting system for its tourism arm and an operations system for its hotels, staff and stock.",
+      "Built the company's internal software end to end, alone: an accounting system for its tourism arm and an operations system for its hotels, staff and stock.",
       "Sat with each department and wrote how the work actually runs (approvals, shifts, deductions, payroll) into the specification before building.",
       "Moved the company's records and opening balances off Excel, and ran both side by side until the numbers matched.",
       "Train the staff on the systems and support them day to day, from reception to HR and accounting.",
