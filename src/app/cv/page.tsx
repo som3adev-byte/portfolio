@@ -45,7 +45,7 @@ export default function CV() {
         <p className="cv__summary">
           I build the systems a business runs on, then run them with the people who use them. At Ashar Company in
           Al-Ula I built the accounting and operations systems end to end, alone, wrote their rules with each
-          department, and moved the company off Excel. An accounting degree shapes how I model money.
+          department, and moved the company off Excel. I build daily with AI tools (Claude Code, Codex, my own agent skills). An accounting degree shapes how I model money.
         </p>
       </section>
 
@@ -101,6 +101,9 @@ export default function CV() {
           <p>
             Next.js, React, TypeScript · PostgreSQL, Prisma, Drizzle, NestJS · row-level security, 2FA · Expo, React
             Native · Vitest, Playwright, GitHub Actions · Vercel, Docker
+            <br />
+            <strong>AI tools:</strong> Claude Code, Codex, custom agent skills and MCP · Kling, Higgsfield · Remotion,
+            HyperFrames
           </p>
         </div>
         <div>

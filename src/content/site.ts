@@ -62,4 +62,5 @@ export const skills = [
   ["Mobile", "Expo, React Native"],
   ["Quality", "Vitest, Playwright, GitHub Actions"],
   ["Hosting", "Vercel, Neon, Docker"],
+  ["AI tools", "Claude Code, Codex, custom agent skills and MCP; Kling and Higgsfield for generated media; Remotion and HyperFrames for video in code"],
 ] as const;
