@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import Link from "next/link";
 import { site } from "@/content/site";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Cursor } from "@/components/Cursor";
 import "./globals.css";
 
 const sans = localFont({
@@ -40,6 +41,10 @@ export const viewport: Viewport = {
 // Runs before paint so a saved theme never flashes the wrong one.
 const themeScript = `try{var t=localStorage.getItem("theme");if(t)document.documentElement.dataset.theme=t}catch(e){}`;
 
+// The home loader shows only once per visit, never with reduced motion or ?noload, and
+// removes itself after 4 s if the page script never runs.
+const loaderScript = `try{var h=document.documentElement;if(location.pathname==="/"&&!/noload/.test(location.search)&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&sessionStorage.getItem("seen")!=="1"){h.classList.add("loading");setTimeout(function(){h.classList.remove("loading")},4000)}}catch(e){}`;
+
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
@@ -56,6 +61,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" dir="ltr" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: loaderScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body>
@@ -87,6 +93,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             <a href={`mailto:${site.email}`}>{site.email}</a> · <a href={site.github} rel="me">GitHub</a> · <Link href="/cv">CV</Link>
           </p>
         </footer>
+        <Cursor />
       </body>
     </html>
   );

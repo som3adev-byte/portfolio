@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Film } from "@/components/Film";
+import { Loader } from "@/components/Loader";
 import { projects } from "@/content/projects";
 import { education, experience, site, skills } from "@/content/site";
 
@@ -9,6 +10,7 @@ const pad = Math.max(...projects.map((p) => p.slug.length)) + 2;
 export default function Home() {
   return (
     <>
+      <Loader />
       <Film>
         <section data-beat="hero" className="beat beat--hero" aria-labelledby="hero-title">
           <div className="beat__in">
