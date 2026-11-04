@@ -16,7 +16,7 @@ export type Project = {
   title: string;
   /** One line for cards and the monitor listing. */
   line: string;
-  kind: "Employer" | "Client" | "Independent";
+  kind: "Employer" | "Client" | "Independent" | "Own studio";
   period: string;
   status: string;
   summary: string;
@@ -264,12 +264,12 @@ export const projects: Project[] = [
   {
     slug: "f6-media",
     title: "F6 Media",
-    line: "Scroll-film website for a real-estate video studio",
-    kind: "Client",
+    line: "Scroll-film website for my real-estate video studio",
+    kind: "Own studio",
     period: "Oct 2026",
     status: "Live.",
     summary:
-      "A website for F6 Media, a real-estate video editing studio in Cairo. Scrolling moves one camera through one continuous shot of a house, and the studio's story sits at the places the camera stops. At one stop a TV inside the scene plays the studio's real reels.",
+      "The website for my studio, F6 Media, which edits real-estate videos from Cairo. Scrolling moves one camera through one continuous shot of a house, and the studio's story sits at the places the camera stops. At one stop a TV inside the scene plays the studio's real reels.",
     role: "Design, footage pipeline and build.",
     stack: ["HTML", "CSS", "JavaScript", "Canvas", "Kling (footage)", "Vercel"],
     live: "https://f6-media.vercel.app",
@@ -292,7 +292,7 @@ export const projects: Project[] = [
           },
         ],
       },
-      { heading: "What is still open", blocks: ["The package prices and results on the live site are placeholders until the studio confirms them, and the booking form is not connected yet."] },
+      { heading: "What is still open", blocks: ["The package prices and results on the live site are placeholders until I set the final ones, and the booking form is not connected yet."] },
     ],
   },
   {
