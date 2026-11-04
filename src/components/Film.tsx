@@ -29,7 +29,8 @@ export function Film({ children }: { children: ReactNode }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches || slowNetwork()) return;
+    // `?static` shows the stills layout, for checking it without changing OS settings.
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches || slowNetwork() || location.search.includes("static")) return;
     // The set is chosen once at load; rotating mid-visit keeps it and just redraws to fit.
     const set = pickSet(innerWidth, innerHeight);
     const film = root.current!;
