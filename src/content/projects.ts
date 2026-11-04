@@ -326,6 +326,37 @@ export const projects: Project[] = [
       },
     ],
   },
+  {
+    slug: "birthday",
+    title: "A Birthday for You",
+    line: "Interactive birthday experience that reads hands, face and gestures through the webcam",
+    kind: "Independent",
+    period: "2026",
+    status: "Live. Personal project.",
+    summary:
+      "A guided birthday experience made for one person: 3D scenes, music, a game and a cake sequence. It reads hands, face and gestures live through the webcam with MediaPipe, entirely in the browser. Nothing leaves the device.",
+    role: "Idea, design and build.",
+    stack: ["Next.js", "React Three Fiber", "Three.js", "MediaPipe Tasks Vision", "Zustand", "Playwright"],
+    live: "https://bdc-liora.vercel.app",
+    closed: "Repository is private.",
+    figures: [
+      { src: "/work/bdc-intro.jpg", width: 1440, height: 900, alt: "Birthday site opening screen with flowers", caption: "The opening: messages one card at a time, and a tap anywhere grows a flower from the bottom of the screen." },
+    ],
+    sections: [
+      {
+        heading: "Decisions worth looking at",
+        blocks: [
+          {
+            items: [
+              { title: "Computer vision in the browser", text: "Face, hand and gesture models from MediaPipe Tasks Vision run on the visitor's own device through the camera. No video is uploaded anywhere." },
+              { title: "A scene, not a page", text: "The experience moves through 3D scenes built with React Three Fiber, with Zustand for the state the scenes share." },
+              { title: "Tested like a product", text: "It has Playwright tests, even though it was made for one person." },
+            ],
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export function getProject(slug: string) {
