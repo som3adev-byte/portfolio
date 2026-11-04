@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { Archivo } from "next/font/google";
 import Link from "next/link";
 import { site } from "@/content/site";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -21,6 +22,9 @@ const mono = localFont({
   display: "swap",
 });
 
+// Wide Archivo for the big words (self-hosted by next/font at build time).
+const archivo = Archivo({ subsets: ["latin"], axes: ["wdth"], variable: "--font-archivo", display: "swap" });
+
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: { default: `${site.name} | ${site.role}`, template: `%s | ${site.name}` },
@@ -33,8 +37,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#121212" },
+    { media: "(prefers-color-scheme: light)", color: "#111214" },
+    { media: "(prefers-color-scheme: dark)", color: "#111214" },
   ],
 };
 
@@ -58,7 +62,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" dir="ltr" className={`${sans.variable} ${mono.variable}`} suppressHydrationWarning>
+    <html lang="en" dir="ltr" className={`${sans.variable} ${mono.variable} ${archivo.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
         <script dangerouslySetInnerHTML={{ __html: loaderScript }} />

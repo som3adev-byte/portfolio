@@ -12,7 +12,6 @@ export function Cursor() {
     const el = ring.current!;
     const p = { x: 0, y: 0, cx: 0, cy: 0, seen: false };
     let raf = 0;
-    const prefersDark = matchMedia("(prefers-color-scheme: dark)");
 
     const move = (e: PointerEvent) => {
       if (e.pointerType !== "mouse") return;
@@ -38,7 +37,7 @@ export function Cursor() {
       el.classList.toggle("is-link", Boolean(over?.closest("a, button")));
       // A light ring over dark surfaces: the monitor, solid buttons, and the page itself in the
       // dark theme (the film stays a white room in both themes).
-      const darkPage = html.dataset.theme === "dark" || (!html.dataset.theme && prefersDark.matches);
+      const darkPage = html.dataset.theme !== "light";
       const onFilm = Boolean(over?.closest(".film-stage"));
       el.classList.toggle("is-dark", Boolean(over?.closest(".beat--work, .btn--solid, .film-skip")) || (darkPage && !onFilm));
       raf = requestAnimationFrame(tick);

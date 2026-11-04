@@ -6,18 +6,15 @@ type Theme = "light" | "dark";
 
 function read(): Theme {
   const set = document.documentElement.dataset.theme;
-  if (set === "light" || set === "dark") return set;
-  return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  // Graphite is dark by default; light is the choice.
+  return set === "light" ? "light" : "dark";
 }
 
 const listeners = new Set<() => void>();
 function subscribe(fn: () => void) {
   listeners.add(fn);
-  const mq = matchMedia("(prefers-color-scheme: dark)");
-  mq.addEventListener("change", fn);
   return () => {
     listeners.delete(fn);
-    mq.removeEventListener("change", fn);
   };
 }
 

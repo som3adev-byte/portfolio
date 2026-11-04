@@ -1,43 +1,33 @@
-/* Tokens: primitives are named by role, not by colour. The film is always light, because the
-   footage is a white room; everything after it follows the theme. */
+/* Tokens, named by role. Graphite is the identity: dark first, a copper accent, wide
+   Archivo headlines. The film stays a white room in both themes. Contrast pairs are AA. */
 :root {
-  --bg: #ffffff;
-  --surface: #f4f4f3;
-  --ink: #0a0a0a;
-  --muted: #5c5c5c;
-  --rule: rgb(10 10 10 / 0.16);
-  --accent: #a33a1f; /* 6.9:1 on --bg */
-  --focus: #a33a1f;
+  --bg: #111214;
+  --surface: #1b1c1f;
+  --ink: #ecebe7; /* 15.7:1 on --bg */
+  --muted: #a3a19b; /* 7.3:1 */
+  --rule: rgb(236 235 231 / 0.14);
+  --accent: #e08a52; /* 7.1:1 */
+  --on-accent: #111214;
+  --focus: #e08a52;
   --sans: var(--font-plex-sans), ui-sans-serif, -apple-system, "Segoe UI", "Geeza Pro", "Noto Sans Arabic", Arial, sans-serif;
   --mono: var(--font-plex-mono), ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --display: var(--font-archivo), var(--sans);
   --gutter: clamp(1rem, 4vw, 3rem);
-  --max: 72rem;
+  --max: 74rem;
   --radius: 6px;
-  color-scheme: light;
-}
-
-:root[data-theme="dark"] {
-  --bg: #121212;
-  --surface: #1c1c1c;
-  --ink: #ececec;
-  --muted: #a6a6a6; /* 7.6:1 on --bg */
-  --rule: rgb(236 236 236 / 0.16);
-  --accent: #e38b6f; /* desaturated for dark, 7.2:1 on --bg */
-  --focus: #e38b6f;
   color-scheme: dark;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #121212;
-    --surface: #1c1c1c;
-    --ink: #ececec;
-    --muted: #a6a6a6;
-    --rule: rgb(236 236 236 / 0.16);
-    --accent: #e38b6f;
-    --focus: #e38b6f;
-    color-scheme: dark;
-  }
+:root[data-theme="light"] {
+  --bg: #f4f2ee;
+  --surface: #e9e6e0;
+  --ink: #16171a; /* 16:1 */
+  --muted: #5d5a54; /* 6.2:1 */
+  --rule: rgb(22 23 26 / 0.14);
+  --accent: #a0501d; /* 5.1:1 */
+  --on-accent: #f4f2ee;
+  --focus: #a0501d;
+  color-scheme: light;
 }
 
 *,
@@ -221,8 +211,9 @@ a:hover {
   --ink: #0a0a0a;
   --muted: #4d4d4d;
   --rule: rgb(10 10 10 / 0.2);
-  --accent: #a33a1f;
-  --focus: #a33a1f;
+  --accent: #a0501d; /* the copper family, dark enough for text on the white room: 5.1:1 */
+  --on-accent: #f7f4ef;
+  --focus: #a0501d;
   color-scheme: light;
   color: var(--ink);
   background: #fff;
@@ -1652,5 +1643,130 @@ html {
   .card__link,
   .card h3::after {
     transition: none;
+  }
+}
+
+/* ---------- Display type: wide Archivo for the big words ---------- */
+
+.beat--hero h1,
+.statement,
+.card h3,
+.case__head h1,
+.contact__big,
+.beyond h3,
+.cv h1 {
+  font-family: var(--display, var(--sans));
+}
+
+.beat--hero h1,
+.case__head h1,
+.contact__big {
+  font-weight: 800;
+  font-stretch: 125%;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.card h3,
+.beyond h3,
+.statement {
+  font-weight: 700;
+  font-stretch: 112%;
+  letter-spacing: -0.015em;
+}
+
+.contact__big {
+  text-transform: none;
+  font-stretch: 112%;
+}
+
+.site-header {
+  color: var(--ink);
+}
+
+.btn--solid {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+
+.btn--solid:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--bg);
+}
+
+.beyond li::before {
+  background: var(--accent);
+}
+
+.card__media {
+  border-color: var(--rule);
+}
+
+
+/* ---------- Graphite motion ---------- */
+
+/* The name arrives letter by letter (spans are aria-hidden; the h1 carries the label). */
+.hero__name .ch {
+  display: inline-block;
+}
+
+@keyframes letter-rise {
+  from {
+    transform: translateY(0.9em) rotate(6deg);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.loading) .beat--hero .beat__in > h1 {
+    animation: none;
+  }
+  html:not(.loading) .hero__name .ch {
+    animation: letter-rise 700ms var(--ease-out) both;
+    animation-delay: calc(var(--i) * 28ms);
+  }
+}
+
+.hero__name .line {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  padding-bottom: 0.04em;
+}
+
+.beat--hero .beat__in {
+  width: max-content;
+  max-width: 92vw;
+}
+
+/* Bigger, wider step numbers. */
+.beyond__n {
+  font: 800 clamp(1.75rem, 1.2rem + 1.6vw, 2.75rem)/1 var(--display);
+  font-stretch: 125%;
+  letter-spacing: -0.02em;
+  color: var(--accent);
+}
+
+/* Cards light up with a copper edge. */
+.card__media {
+  transition: border-color 260ms var(--ease-out), box-shadow 260ms var(--ease-out);
+}
+
+@media (hover: hover) {
+  .card__link:hover .card__media {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent), 0 24px 60px -36px var(--accent);
+  }
+}
+
+@media (orientation: landscape) and (min-width: 761px) {
+  .beat--hero .beat__in > :not(h1) {
+    max-width: min(30rem, 38vw);
   }
 }

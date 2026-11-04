@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ViewTransition } from "react";
+import { ViewTransition, type CSSProperties } from "react";
 import { Film } from "@/components/Film";
 import { Loader } from "@/components/Loader";
 import { coverOf, mainProjects, projects } from "@/content/projects";
@@ -17,7 +17,17 @@ export default function Home() {
       <Film>
         <section data-beat="hero" className="beat beat--hero" aria-labelledby="hero-title">
           <div className="beat__in">
-            <h1 id="hero-title">{site.name}</h1>
+            <h1 id="hero-title" className="hero__name" aria-label={site.name}>
+              {site.name.split(" ").map((word, w) => (
+                <span key={word} className="line" aria-hidden="true">
+                  {[...word].map((ch, i) => (
+                    <span key={i} className="ch" style={{ "--i": w * 8 + i } as CSSProperties}>
+                      {ch}
+                    </span>
+                  ))}
+                </span>
+              ))}
+            </h1>
             <p className="eyebrow">{site.role}</p>
             <p className="hero__claim">{site.headline}</p>
             <p className="hero__meta">
