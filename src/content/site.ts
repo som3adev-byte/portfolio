@@ -1,7 +1,7 @@
 export const site = {
   name: "Abdullah Ismail",
   role: "Full-stack developer",
-  headline: "I build the software a business runs on, and I stay with the people who run it.",
+  headline: "I turn the way a company works into the software it runs on.",
   location: "Al-Ula, Saudi Arabia",
   email: "abdullah.ismail.pro@gmail.com",
   phone: { href: "tel:+966510042472", label: "+966 51 004 2472" },

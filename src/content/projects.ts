@@ -228,8 +228,13 @@ export const projects: Project[] = [
       "A laundry in Saudi Arabia takes orders over WhatsApp and the phone, and they get mixed up as it grows. This system covers clothes, shoes, bedding and carpets, and car washing at the customer's home: a customer app with upfront prices, a field app for drivers and technicians, and a dashboard that is also the API.",
     role: "Sole developer across all three apps and the shared domain package.",
     stack: ["Next.js 16", "Drizzle ORM", "PostgreSQL", "Expo 58", "React Native", "TypeScript", "Turborepo", "Vitest", "GitHub Actions"],
-    closed: "Client project. The code is private.",
+    closed: "Client project. The code is private; screenshots use the seeded demo data.",
     numbers: [["3", "apps sharing one domain package"], ["76", "tests across 8 files"]],
+    figures: [
+      { src: "/work/laundry-dashboard.jpg", width: 1440, height: 900, alt: "Dispatch screen of the laundry dashboard", caption: "Dispatch for one day: pickups, deliveries and car washes in their time slots, with the stops still waiting for a driver highlighted. Customer names and addresses stay in Arabic, as the business enters them." },
+      { src: "/work/laundry-orders.jpg", width: 1440, height: 900, alt: "Order detail with tagged items and price", caption: "One order: every item carries its own tag through custody, the price is itemised with delivery and 15% VAT, and the visits show what is done and what is scheduled." },
+      { src: "/work/laundry-staff.jpg", width: 780, height: 1688, alt: "Driver app pickup screen", caption: "The driver's pickup job: who, where, a call and a map button, the booked items, and the two outcomes that matter at the door." },
+    ],
     sections: [
       {
         heading: "Decisions worth looking at",
@@ -329,7 +334,7 @@ export const projects: Project[] = [
     stack: ["Next.js", "React Three Fiber", "Three.js", "MediaPipe Tasks Vision", "Zustand", "Playwright"],
     closed: "Personal project: the repository and the live link stay private.",
     figures: [
-      { src: "/work/vision-flowers.jpg", width: 1440, height: 300, alt: "Glowing flowers growing from the bottom of a dark screen", caption: "The opening scene: every tap grows a new flower from the bottom of the screen, before the camera-driven part begins." },
+      { src: "/work/vision-scene.jpg", width: 1440, height: 740, alt: "A 3D two-tier cake on a gold plate with floating particles", caption: "The finale, a 3D scene built with React Three Fiber. With a camera allowed, face detection drives it; without one it falls back to this stage." },
     ],
     sections: [
       {
@@ -355,7 +360,6 @@ export function coverOf(p: Project) {
 }
 
 export const mainProjects = projects.filter((p) => p.main);
-export const moreProjects = projects.filter((p) => !p.main);
 
 export function getProject(slug: string) {
   return projects.find((p) => p.slug === slug);

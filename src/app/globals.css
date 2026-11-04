@@ -1339,7 +1339,6 @@ html {
     .card__link > :not(.card__media),
     .services li,
     .beyond li,
-    .more li,
     .timeline li,
     .skills > div,
     .decisions > div,
@@ -1478,55 +1477,142 @@ html {
   color: var(--muted);
 }
 
-.more {
-  display: grid;
-  border-top: 1px solid var(--rule);
-}
-
-.more a {
-  display: grid;
-  grid-template-columns: minmax(12rem, 1.1fr) 2fr auto;
-  gap: 0.35rem 2rem;
-  align-items: baseline;
-  padding: 1.1rem 0;
-  border-bottom: 1px solid var(--rule);
-  text-decoration: none;
-  transition: padding 220ms var(--ease-out, ease-out), background-color 220ms ease-out;
-}
-
-.more a:hover {
-  padding-inline: 0.75rem;
-  background: var(--surface);
-  color: inherit;
-}
-
-.more__title {
-  font-weight: 650;
-  font-size: 1.0625rem;
-}
-
-.more a:hover .more__title {
-  color: var(--accent);
-}
-
-.more__line {
-  color: var(--muted);
-}
-
-.more__kind {
-  font: 400 0.75rem/1.5 var(--mono);
-  color: var(--muted);
-  white-space: nowrap;
-}
-
-@media (max-width: 760px) {
-  .more a {
-    grid-template-columns: 1fr;
-  }
-}
-
 .about__side {
   display: grid;
   gap: 2rem;
   align-content: start;
+}
+
+/* The hero arrives line by line once the loader has gone (or straight away on later visits). */
+@keyframes hero-line {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.5em);
+  }
+  to {
+    clip-path: inset(-0.5em -0.5em -0.5em -0.5em);
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.loading) .beat--hero .beat__in > * {
+    animation: hero-line 720ms var(--ease-out) both;
+  }
+  html:not(.loading) .beat--hero .beat__in > :nth-child(2) { animation-delay: 80ms; }
+  html:not(.loading) .beat--hero .beat__in > :nth-child(3) { animation-delay: 160ms; }
+  html:not(.loading) .beat--hero .beat__in > :nth-child(4) { animation-delay: 240ms; }
+  html:not(.loading) .beat--hero .beat__in > :nth-child(5) { animation-delay: 320ms; }
+}
+
+/* ---------- More motion ---------- */
+
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes hero-drift {
+  to {
+    transform: scale(1.06) translateY(-3%);
+  }
+}
+
+/* Rules draw themselves across instead of being there already. */
+.section__title,
+.beyond li {
+  position: relative;
+}
+
+.section__title {
+  border-bottom: 0;
+}
+
+.section__title::after,
+.beyond li::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  transform-origin: 0 50%;
+}
+
+.section__title::after {
+  bottom: 0;
+  height: 1px;
+  background: var(--rule);
+}
+
+.beyond li {
+  border-top: 0;
+}
+
+.beyond li::before {
+  top: 0;
+  height: 2px;
+  background: var(--ink);
+}
+
+/* Cards lift toward the pointer, and the title points the way in. */
+.card__link {
+  transition: transform 320ms var(--ease-out);
+}
+
+.card h3::after {
+  content: " →";
+  display: inline-block;
+  opacity: 0;
+  translate: -0.4em 0;
+  transition: opacity 220ms var(--ease-out), translate 220ms var(--ease-out);
+}
+
+@media (hover: hover) {
+  .card__link:hover {
+    transform: translateY(-6px);
+  }
+  .card__link:hover h3::after {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .section__title::after,
+    .beyond li::before {
+      animation: draw linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 35%;
+    }
+
+    /* Cards in a row arrive one after another, not all at once. */
+    .cards .card:nth-child(3n + 2) .card__media,
+    .cards .card:nth-child(3n + 2) .card__link > :not(.card__media) {
+      animation-range: entry 12% cover 40%;
+    }
+    .cards .card:nth-child(3n + 3) .card__media,
+    .cards .card:nth-child(3n + 3) .card__link > :not(.card__media) {
+      animation-range: entry 20% cover 46%;
+    }
+    .beyond li:nth-child(2) { animation-range: entry 12% cover 32%; }
+    .beyond li:nth-child(3) { animation-range: entry 18% cover 38%; }
+    .beyond li:nth-child(4) { animation-range: entry 24% cover 44%; }
+
+    /* A project's hero drifts slowly as you read past it. */
+    .case__hero img {
+      animation: hero-drift linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card__link,
+  .card h3::after {
+    transition: none;
+  }
 }

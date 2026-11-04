@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ViewTransition } from "react";
 import { Film } from "@/components/Film";
 import { Loader } from "@/components/Loader";
-import { coverOf, mainProjects, moreProjects } from "@/content/projects";
+import { coverOf, mainProjects, projects } from "@/content/projects";
 import { beyond, education, experience, site, skills } from "@/content/site";
 
 const pad = Math.max(...mainProjects.map((p) => p.slug.length)) + 2;
@@ -97,14 +97,14 @@ export default function Home() {
 
       <section id="work" className="section" aria-labelledby="work-title">
         <h2 id="work-title" className="section__title">
-          Main work
+          Work
         </h2>
         <p className="section__lede">
-          Two systems a company in Al-Ula runs on every day, and an independent compliance platform with its code in
-          the open.
+          Two systems a company in Al-Ula runs on every day and an independent compliance platform first, then a
+          client&rsquo;s three-app product and the sites that show off the front end.
         </p>
         <ul className="cards cards--main">
-          {mainProjects.map((p) => {
+          {projects.map((p) => {
             const img = coverOf(p);
             return (
               <li key={p.slug} className="card">
@@ -152,25 +152,6 @@ export default function Home() {
             </li>
           ))}
         </ol>
-      </section>
-
-      <section id="more" className="section" aria-labelledby="more-title">
-        <h2 id="more-title" className="section__title">
-          More work
-        </h2>
-        <ul className="more">
-          {moreProjects.map((p) => (
-            <li key={p.slug}>
-              <Link href={`/work/${p.slug}`}>
-                <span className="more__title">{p.title}</span>
-                <span className="more__line">{p.line}</span>
-                <span className="more__kind">
-                  {p.kind} · {p.period}
-                </span>
-              </Link>
-            </li>
-          ))}
-        </ul>
       </section>
 
       <section id="about" className="section" aria-labelledby="exp-title">

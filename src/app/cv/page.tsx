@@ -30,9 +30,10 @@ export default function CV() {
       <section>
         <h2>Summary</h2>
         <p>
-          Full-stack developer and the only developer at a company in Al-Ula. I build and run its accounting and
-          operations systems with Next.js, TypeScript and PostgreSQL. My accounting degree shapes how I model money,
-          payments and audit trails.
+          Full-stack developer and the only developer at a company in Al-Ula. I build its accounting and operations
+          systems with Next.js, TypeScript and PostgreSQL, and I run them with the staff: I write the business rules
+          with each department, moved the company off Excel, train and support the users, and handle IT and
+          administration. My accounting degree shapes how I model money, payments and audit trails.
         </p>
       </section>
 
