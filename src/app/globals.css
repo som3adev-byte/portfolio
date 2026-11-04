@@ -1867,3 +1867,30 @@ html:not(.film-on) .beat--hero h1 {
     overflow-wrap: normal;
   }
 }
+
+.cv__line {
+  margin-top: 0.3rem;
+  font-size: 0.9375rem;
+}
+
+.cv__stack {
+  margin-top: 0.15rem;
+  font: 400 0.75rem/1.5 var(--mono);
+  color: var(--muted);
+}
+
+.cv__more {
+  margin-top: 0.4rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+/* Print (and the CV PDF) is always the finished page: no scroll animations, no clipping. */
+@media print {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

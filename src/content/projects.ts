@@ -27,8 +27,10 @@ export type Project = {
   /** Shown instead of a repo link for work that can't be public. */
   closed?: string;
   numbers?: [value: string, label: string][];
-  /** One of the three projects shown first and on the monitor. */
+  /** One of the three projects shown first. */
   main?: true;
+  /** The single line this project gets on the CV; projects without one are listed as "more work". */
+  cv?: string;
   figures?: Figure[];
   sections: { heading: string; blocks: Block[] }[];
 };
@@ -40,6 +42,7 @@ export const projects: Project[] = [
   {
     slug: "ashar-operations",
     main: true,
+    cv: "Staff, GPS attendance, payroll, bookings, stock and tax invoices for a hotel and trading company; 94 data models, about 185 tests.",
     title: "Ashar operations system",
     line: "Staff, attendance, payroll, bookings, stock and invoices for a hotel and trading company",
     kind: "Employer",
@@ -114,6 +117,7 @@ export const projects: Project[] = [
   {
     slug: "tourism-accounting",
     main: true,
+    cv: "Replaced Excel for a tourism company's accounts; in daily use since May 2026, with Arabic PDF and Excel reports.",
     title: "Ashar accounting",
     line: "Replaced the spreadsheets behind a tourism company's accounts",
     kind: "Employer",
@@ -172,6 +176,7 @@ export const projects: Project[] = [
   {
     slug: "mizan",
     main: true,
+    cv: "Compliance platform for the Saudi ECC-2:2024 controls: database-level tenant isolation, mandatory 2FA, 103 tests, open source.",
     title: "Mizan",
     line: "Compliance platform for the Saudi ECC-2:2024 cybersecurity controls",
     kind: "Independent",
@@ -219,6 +224,7 @@ export const projects: Project[] = [
   },
   {
     slug: "laundry-pickup",
+    cv: "Dashboard, driver app and customer app for a Saudi laundry, sharing one rules package; 2FA and an offline field app.",
     title: "Laundry pickup and delivery",
     line: "Dashboard, driver app and customer app for a Saudi laundry",
     kind: "Client",

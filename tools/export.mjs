@@ -3,7 +3,7 @@
 import { chromium } from "playwright";
 const base = process.argv[2] ?? "http://localhost:3000";
 const browser = await chromium.launch(process.env.CHROME ? { executablePath: process.env.CHROME } : {});
-const page = await browser.newPage({ colorScheme: "light" });
+const page = await browser.newPage({ colorScheme: "light", reducedMotion: "reduce" });
 await page.goto(`${base}/cv`, { waitUntil: "networkidle" });
 await page.pdf({ path: "public/abdullah-ismail-cv.pdf", format: "A4", printBackground: true });
 const og = await browser.newPage({ viewport: { width: 1200, height: 630 }, colorScheme: "light" });

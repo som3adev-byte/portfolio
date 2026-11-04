@@ -58,22 +58,28 @@ export default function CV() {
 
       <section>
         <h2>Selected projects</h2>
-        {projects.map((p) => (
-          <div key={p.slug} className="cv__item">
-            <div className="cv__row">
-              <h3>{p.title}</h3>
-              <span>
-                {p.kind} · {p.period}
-              </span>
+        {projects
+          .filter((p) => p.cv)
+          .map((p) => (
+            <div key={p.slug} className="cv__item">
+              <div className="cv__row">
+                <h3>{p.title}</h3>
+                <span>
+                  {p.kind} · {p.period}
+                </span>
+              </div>
+              <p className="cv__line">{p.cv}</p>
+              <p className="cv__stack">{p.stack.slice(0, 5).join(" · ")}</p>
             </div>
-            <ul>
-              <li>
-                {p.line}. {p.status}
-              </li>
-              <li>{p.stack.slice(0, 6).join(", ")}</li>
-            </ul>
-          </div>
-        ))}
+          ))}
+        <p className="cv__more">
+          More work, with screenshots and case studies:{" "}
+          {projects
+            .filter((p) => !p.cv)
+            .map((p) => p.title)
+            .join(", ")}{" "}
+          at <a href={site.url}>{site.url.replace(/^https?:\/\//, "")}</a>
+        </p>
       </section>
 
       <section className="cv__skills">
