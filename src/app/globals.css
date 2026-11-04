@@ -260,43 +260,81 @@ a:hover {
   .beat--contact { --still: url("/film/phone/120.webp"); }
 }
 
-/* Plain pages on phones: after the hero, each stop is a short framed still with its text
-   under it, and the monitor becomes a terminal card, instead of four screens of photos. */
-@media (max-width: 600px) {
+/* Plain pages (no film): the hero stays full-bleed; after it each stop is a framed still
+   beside its text (stacked on phones), and the monitor becomes a terminal card. */
+html:not(.film-on) .beat:not(.beat--hero) {
+  min-height: 0;
+  max-width: var(--max);
+  margin-inline: auto;
+  background: transparent;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 4rem);
+  padding: clamp(3rem, 8vw, 6rem) var(--gutter) 0;
+}
+
+html:not(.film-on) .beat:not(.beat--hero) .beat__in {
+  position: static;
+  width: auto;
+  inset: auto;
+}
+
+html:not(.film-on) .beat--about::after,
+html:not(.film-on) .beat--contact::after {
+  content: "";
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  background: var(--still) center 65% / cover no-repeat;
+  box-shadow: 0 1px 0 var(--rule), 0 24px 60px -32px rgb(10 10 10 / 0.35);
+}
+
+html:not(.film-on) .beat--contact::after {
+  order: -1;
+}
+
+html:not(.film-on) .beat--contact::before {
+  display: none;
+}
+
+html:not(.film-on) .beat.beat--work {
+  grid-template-columns: 1fr;
+  color: #f2f2f2;
+}
+
+html:not(.film-on) .beat--contact .contact__email {
+  font-size: clamp(1.125rem, 0.8rem + 1.2vw, 1.75rem);
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+html:not(.film-on) .beat--work .beat__in {
+  padding: clamp(1.5rem, 4vw, 3rem);
+  border-radius: calc(var(--radius) * 2);
+  background: #0a0a0a;
+  box-shadow: 0 30px 80px -40px rgb(10 10 10 / 0.6);
+}
+
+html:not(.film-on) .beat--work .beat__in::before {
+  content: "";
+  display: block;
+  width: 46px;
+  height: 10px;
+  margin-bottom: 1.5rem;
+  background: radial-gradient(circle, #ff5f57 4px, transparent 4.5px) 0 0 / 16px 10px repeat-x;
+  opacity: 0.85;
+}
+
+html:not(.film-on) .ledger div:nth-child(n + 4) {
+  display: grid;
+}
+
+@media (max-width: 760px) {
   html:not(.film-on) .beat:not(.beat--hero) {
-    min-height: 0;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
-    padding: 3rem var(--gutter) 0;
+    grid-template-columns: 1fr;
   }
-  html:not(.film-on) .beat:not(.beat--hero) .beat__in {
-    position: static;
-    width: auto;
-    inset: auto;
-  }
-  html:not(.film-on) .beat--about::after,
   html:not(.film-on) .beat--contact::after {
-    content: "";
     order: 1;
-    aspect-ratio: 4 / 3;
-    border-radius: var(--radius);
-    background: var(--still) center 70% / cover no-repeat;
-  }
-  html:not(.film-on) .beat--contact::before {
-    display: none;
-  }
-  html:not(.film-on) .beat--work .beat__in {
-    padding: 1.5rem 1.25rem;
-    border-radius: var(--radius);
-    background: #0a0a0a;
-  }
-  html:not(.film-on) .beat--work {
-    color: #f2f2f2;
-  }
-  html:not(.film-on) .ledger div:nth-child(n + 4) {
-    display: grid;
   }
 }
 

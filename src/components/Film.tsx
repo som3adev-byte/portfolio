@@ -96,11 +96,14 @@ export function Film({ children }: { children: ReactNode }) {
       canvas.height = h;
     }
 
-    // Keep only the window around the camera in flight; anything outside it is aborted.
+    // Each stop's own frame loads first and stays decoded, so a stop never shows the wrong
+    // picture while the frames between stops are still arriving.
+    const anchors = [...new Set(Object.values(set.anchors))];
+    // Keep only the window around the camera (plus the stops) in flight; the rest is aborted.
     function pump() {
-      const keep = new Set(wanted);
+      const keep = new Set([...anchors, ...wanted]);
       for (const [i, ac] of fetching) if (!keep.has(i)) ac.abort();
-      for (const i of wanted) {
+      for (const i of [...anchors, ...wanted]) {
         if (fetching.size >= FETCH_AT_ONCE) break;
         if (blobs.has(i) || fetching.has(i)) continue;
         const ac = new AbortController();
@@ -116,19 +119,31 @@ export function Film({ children }: { children: ReactNode }) {
       }
     }
 
+    // Some Safari versions reject createImageBitmap's resize options; then frames are decoded
+    // at full size and scaled while drawing.
+    let resizeOK = true;
+    const decode = (blob: Blob) =>
+      resizeOK
+        ? createImageBitmap(blob, { resizeWidth: size.dw, resizeHeight: size.dh, resizeQuality: "medium" }).catch(() => {
+            resizeOK = false;
+            return createImageBitmap(blob);
+          })
+        : createImageBitmap(blob);
+
     function decodeAround(f: number) {
-      for (let i = f - DECODE_BEHIND; i <= f + DECODE_AHEAD; i++) {
+      const near = Array.from({ length: DECODE_BEHIND + DECODE_AHEAD + 1 }, (_, k) => f - DECODE_BEHIND + k);
+      for (const i of [...near, ...anchors]) {
         const blob = blobs.get(i);
         if (!blob || bitmaps.has(i) || decoding.has(i)) continue;
         decoding.add(i);
         const { signal } = decodeAbort;
-        createImageBitmap(blob, { resizeWidth: size.dw, resizeHeight: size.dh, resizeQuality: "medium" })
+        decode(blob)
           .then((b) => (signal.aborted ? b.close() : bitmaps.set(i, b)))
           .catch(() => {})
           .finally(() => decoding.delete(i));
       }
       for (const [i, b] of bitmaps) {
-        if (Math.abs(i - f) > KEEP_DECODED) {
+        if (Math.abs(i - f) > KEEP_DECODED && !anchors.includes(i)) {
           b.close();
           bitmaps.delete(i);
         }
@@ -140,7 +155,10 @@ export function Film({ children }: { children: ReactNode }) {
         if (bitmaps.has(f - d)) return f - d;
         if (bitmaps.has(f + d)) return f + d;
       }
-      return -1;
+      // Nothing near yet (a fast jump): the closest decoded frame, usually a stop's own.
+      let best = -1;
+      for (const i of bitmaps.keys()) if (best === -1 || Math.abs(i - f) < Math.abs(best - f)) best = i;
+      return best;
     }
 
     function tick(now: number) {
@@ -165,7 +183,7 @@ export function Film({ children }: { children: ReactNode }) {
       decodeAround(f);
       const show = nearestDecoded(f);
       if (show !== -1 && show !== drawn) {
-        ctx!.drawImage(bitmaps.get(show)!, size.dx, size.dy);
+        ctx!.drawImage(bitmaps.get(show)!, size.dx, size.dy, size.dw, size.dh);
         drawn = show;
         film.dataset.painted = "";
       }
