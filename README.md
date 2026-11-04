@@ -35,5 +35,6 @@ Screenshots of every stop at desktop and phone size: `node tools/shots.mjs http:
 
 ## Deploy
 
-Vercel. Set `NEXT_PUBLIC_SITE_URL` to the production URL so canonical links, the sitemap and
-the share image resolve.
+Live at https://abdullah-ismail-wine.vercel.app (Vercel project `abdullah-ismail`).
+Set `NEXT_PUBLIC_SITE_URL` to the production URL so canonical links, the sitemap and
+the share image resolve, and regenerate the CV with `tools/export.mjs` when the URL changes.
