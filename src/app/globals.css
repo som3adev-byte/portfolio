@@ -1770,3 +1770,16 @@ html {
     max-width: min(30rem, 38vw);
   }
 }
+
+/* Short phones (SE): the monitor shows the project names only, so the list fits the screen. */
+@media (orientation: portrait) and (max-height: 720px) {
+  .film-on .beat--work .beat__in {
+    inset-block-start: 13svh;
+  }
+  .film-on .ls__line {
+    display: none;
+  }
+  .film-on .ls a {
+    padding: 0.6rem 0;
+  }
+}

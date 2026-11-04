@@ -3,10 +3,10 @@ import Link from "next/link";
 import { ViewTransition, type CSSProperties } from "react";
 import { Film } from "@/components/Film";
 import { Loader } from "@/components/Loader";
-import { coverOf, mainProjects, projects } from "@/content/projects";
+import { coverOf, projects } from "@/content/projects";
 import { beyond, education, experience, site, skills } from "@/content/site";
 
-const pad = Math.max(...mainProjects.map((p) => p.slug.length)) + 2;
+const pad = Math.max(...projects.map((p) => p.slug.length)) + 2;
 
 // One path for a reader in a hurry: who, what, proof, how he works, more, history, contact.
 // Every piece of information appears once.
@@ -78,7 +78,7 @@ export default function Home() {
               <span aria-hidden="true">$ </span>ls work/
             </h2>
             <ul className="ls">
-              {mainProjects.map((p) => (
+              {projects.map((p) => (
                 <li key={p.slug}>
                   <Link href={`/work/${p.slug}`}>
                     <ViewTransition name={`title-${p.slug}`} share="morph" default="none">
