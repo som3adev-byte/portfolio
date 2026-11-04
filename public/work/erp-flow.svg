@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 760" width="1440" height="760" font-family="IBM Plex Sans, -apple-system, Segoe UI, Arial, sans-serif">
+  <rect width="1440" height="760" fill="#fbfbfa"/>
+  <style>
+    .t{font-size:30px;font-weight:650;fill:#0a0a0a}
+    .s{font-size:22px;fill:#5c5c5c}
+    .m{font-family:IBM Plex Mono, ui-monospace, Menlo, monospace;font-size:20px;fill:#0a0a0a}
+    .lab{font-family:IBM Plex Mono, ui-monospace, Menlo, monospace;font-size:15px;letter-spacing:2px;fill:#5c5c5c}
+    .box{fill:#fff;stroke:#0a0a0a;stroke-width:2}
+    .soft{fill:#fff;stroke:#c9c9c6;stroke-width:2}
+    .ln{stroke:#0a0a0a;stroke-width:2;fill:none}
+    .acc{fill:#a33a1f}
+  </style>
+  <defs><marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 0L10 5L0 10z" fill="#0a0a0a"/></marker></defs>
+
+  <text x="80" y="92" class="lab">HOW MONEY MOVES THROUGH THE SYSTEM</text>
+
+  <!-- invoice -->
+  <rect x="80" y="140" width="340" height="190" rx="8" class="box"/>
+  <text x="110" y="190" class="lab">RECEIVABLE</text>
+  <text x="110" y="236" class="t">Invoice 10,000</text>
+  <text x="110" y="280" class="s">one record per invoice,</text>
+  <text x="110" y="308" class="s">money as Decimal</text>
+
+  <!-- payments -->
+  <path d="M420 235 H520" class="ln" marker-end="url(#a)"/>
+  <rect x="530" y="140" width="360" height="190" rx="8" class="box"/>
+  <text x="560" y="190" class="lab">CLIENT PAYMENTS</text>
+  <text x="560" y="236" class="m">+ 4,000   receipt ref</text>
+  <text x="560" y="272" class="m">+ ...     method</text>
+  <text x="560" y="308" class="s">each payment is its own row</text>
+
+  <!-- balance -->
+  <path d="M890 235 H990" class="ln" marker-end="url(#a)"/>
+  <rect x="1000" y="140" width="360" height="190" rx="8" class="box"/>
+  <text x="1030" y="190" class="lab">BALANCE</text>
+  <text x="1030" y="236" class="t">6,000</text>
+  <rect x="1150" y="210" width="120" height="34" rx="17" class="acc"/>
+  <text x="1210" y="234" text-anchor="middle" font-size="17" font-weight="600" fill="#fff" font-family="IBM Plex Mono, ui-monospace, Menlo, monospace">PARTIAL</text>
+  <text x="1030" y="280" class="s">UNPAID → PARTIAL → PAID,</text>
+  <text x="1030" y="308" class="s">computed, never typed in</text>
+
+  <!-- opening balances -->
+  <rect x="80" y="430" width="340" height="190" rx="8" class="soft"/>
+  <text x="110" y="480" class="lab">FROM EXCEL</text>
+  <text x="110" y="526" class="t">Opening balances</text>
+  <text x="110" y="570" class="s">loaded once, flagged</text>
+  <text x="110" y="598" class="s">isOpening, kept apart</text>
+  <path d="M250 430 V340" class="ln" stroke-dasharray="6 6" marker-end="url(#a)"/>
+
+  <!-- reports -->
+  <path d="M1180 330 V420" class="ln" marker-end="url(#a)"/>
+  <rect x="530" y="430" width="830" height="190" rx="8" class="box"/>
+  <text x="560" y="480" class="lab">REPORTS · PDF · EXCEL</text>
+  <text x="560" y="526" class="t">Receivables, revenue, expenses</text>
+  <text x="560" y="570" class="s">Arabic PDF: shape the letters → reverse for drawing → restore the digits,</text>
+  <text x="560" y="598" class="s">so 1,250.00 never prints as 00.052,1</text>
+
+  <text x="80" y="690" class="s">Payables mirror this for suppliers. Records with money attached cannot be deleted.</text>
+</svg>

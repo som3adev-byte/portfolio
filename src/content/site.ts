@@ -1,7 +1,7 @@
 export const site = {
   name: "Abdullah Ismail",
   role: "Full-stack developer",
-  headline: "I build the software a business runs on: money, people, stock and the rules between them.",
+  headline: "I build the software a business runs on, and I stay with the people who run it.",
   location: "Al-Ula, Saudi Arabia",
   email: "abdullah.ismail.pro@gmail.com",
   phone: { href: "tel:+966510042472", label: "+966 51 004 2472" },
@@ -17,7 +17,10 @@ export const experience = [
     period: "Jan 2025 – Present",
     points: [
       "Sole developer of the company's internal software: an accounting system for its tourism arm and an operations system for its hotels, staff and stock.",
-      "Own the whole chain: data model, application, exports, deployment and the people using it every day.",
+      "Sat with each department and wrote how the work actually runs (approvals, shifts, deductions, payroll) into the specification before building.",
+      "Moved the company's records and opening balances off Excel, and ran both side by side until the numbers matched.",
+      "Train the staff on the systems and support them day to day, from reception to HR and accounting.",
+      "Handle the company's IT and help with administration: devices, network, accounts and permissions, and reports for management.",
     ],
   },
   {
@@ -32,6 +35,14 @@ export const experience = [
     period: "2020 – Dec 2021",
     points: ["Mandatory service."],
   },
+] as const;
+
+/** The work around the software, shown in "Beyond the code". Owner-confirmed, Nov 2026. */
+export const beyond = [
+  ["Turn the work into rules", "I sit with each department and write how the work really runs (approvals, shifts, deductions, payroll) before a line of code."],
+  ["Move the company off Excel", "Records and opening balances moved into the systems, with both running side by side until the totals matched."],
+  ["Train and support the staff", "Reception, HR and accounting learn the systems from me, and come to me when something goes wrong."],
+  ["Keep the office running", "Devices, network, accounts and permissions, and the reports management reads."],
 ] as const;
 
 export const education = [

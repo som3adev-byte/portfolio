@@ -75,7 +75,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           <nav aria-label="Main">
             <Link href="/#work">Work</Link>
             <Link href="/#about" data-wide>
-              About
+              Experience
             </Link>
             <Link href="/cv" data-wide>
               CV

@@ -3,11 +3,13 @@ import Link from "next/link";
 import { ViewTransition } from "react";
 import { Film } from "@/components/Film";
 import { Loader } from "@/components/Loader";
-import { coverOf, projects } from "@/content/projects";
-import { education, experience, site, skills } from "@/content/site";
+import { coverOf, mainProjects, moreProjects } from "@/content/projects";
+import { beyond, education, experience, site, skills } from "@/content/site";
 
-const pad = Math.max(...projects.map((p) => p.slug.length)) + 2;
+const pad = Math.max(...mainProjects.map((p) => p.slug.length)) + 2;
 
+// One path for a reader in a hurry: who, what, proof, how he works, more, history, contact.
+// Every piece of information appears once.
 export default function Home() {
   return (
     <>
@@ -27,8 +29,8 @@ export default function Home() {
               <Link className="btn btn--solid" href="/#work">
                 See the work
               </Link>
-              <a className="btn" href={`mailto:${site.email}`}>
-                Email me
+              <a className="btn" href="/abdullah-ismail-cv.pdf">
+                Download CV
               </a>
             </p>
           </div>
@@ -37,7 +39,7 @@ export default function Home() {
         <section data-beat="about" className="beat beat--about" aria-labelledby="about-title">
           <div className="beat__in">
             <h2 id="about-title" className="statement">
-              The accounting is in the engineering: exact money, changes you can trace, and workflows that hold together.
+              Developer and operator: I build the systems, then run them with the people who use them.
             </h2>
             <dl className="ledger">
               <div>
@@ -45,16 +47,16 @@ export default function Home() {
                 <dd>Sole developer at Ashar Company since Jan 2025</dd>
               </div>
               <div>
+                <dt>Builds</dt>
+                <dd>Accounting · payroll · HR · bookings · stock</dd>
+              </div>
+              <div>
+                <dt>Also</dt>
+                <dd>Process · training · Excel to systems · IT</dd>
+              </div>
+              <div>
                 <dt>Degree</dt>
                 <dd>Bachelor of Commerce, Accounting</dd>
-              </div>
-              <div>
-                <dt>Builds</dt>
-                <dd>Accounting · payroll · HR · bookings · inventory</dd>
-              </div>
-              <div>
-                <dt>Core</dt>
-                <dd>Next.js · TypeScript · PostgreSQL · Prisma</dd>
               </div>
             </dl>
           </div>
@@ -66,7 +68,7 @@ export default function Home() {
               <span aria-hidden="true">$ </span>ls work/
             </h2>
             <ul className="ls">
-              {projects.map((p) => (
+              {mainProjects.map((p) => (
                 <li key={p.slug}>
                   <Link href={`/work/${p.slug}`}>
                     <ViewTransition name={`title-${p.slug}`} share="morph" default="none">
@@ -85,7 +87,7 @@ export default function Home() {
             <h2 id="hire-title" className="term">
               <span aria-hidden="true">$ </span>sudo hire-me
             </h2>
-            <p>Hiring, or need a system built? Write to me.</p>
+            <p>Hiring, or need a system built? Keep scrolling for the work, or write now.</p>
             <p className="contact__email">
               <a href={`mailto:${site.email}`}>{site.email}</a>
             </p>
@@ -95,14 +97,14 @@ export default function Home() {
 
       <section id="work" className="section" aria-labelledby="work-title">
         <h2 id="work-title" className="section__title">
-          Work
+          Main work
         </h2>
         <p className="section__lede">
-          Two systems a company runs on every day, an independent compliance platform, a client&rsquo;s three-app
-          product, and the sites that show off the front end.
+          Two systems a company in Al-Ula runs on every day, and an independent compliance platform with its code in
+          the open.
         </p>
-        <ul className="cards">
-          {projects.map((p) => {
+        <ul className="cards cards--main">
+          {mainProjects.map((p) => {
             const img = coverOf(p);
             return (
               <li key={p.slug} className="card">
@@ -110,7 +112,7 @@ export default function Home() {
                   <ViewTransition name={`cover-${p.slug}`} share="morph" default="none">
                     <div className="card__media">
                       {img ? (
-                        <Image src={img.src} alt="" width={img.width} height={img.height} sizes="(max-width: 768px) 100vw, 33vw" />
+                        <Image src={img.src} unoptimized={img.src.endsWith(".svg")} alt="" width={img.width} height={img.height} sizes="(max-width: 768px) 100vw, 33vw" />
                       ) : (
                         <span className="card__mono" aria-hidden="true">
                           {p.slug}
@@ -131,64 +133,84 @@ export default function Home() {
         </ul>
       </section>
 
-      <section id="services" className="section" aria-labelledby="services-title">
-        <h2 id="services-title" className="section__title">
-          For clients
+      <section id="beyond" className="section" aria-labelledby="beyond-title">
+        <h2 id="beyond-title" className="section__title">
+          Beyond the code
         </h2>
-        <ul className="services">
-          <li>
-            <h3>Business systems</h3>
-            <p>Accounting, payroll, HR, bookings and inventory, modelled the way the business actually works, in Arabic and right-to-left first.</p>
-          </li>
-          <li>
-            <h3>Websites that hold attention</h3>
-            <p>Fast marketing sites, including scroll-driven films like the one at the top of this page.</p>
-          </li>
-          <li>
-            <h3>Mobile apps</h3>
-            <p>iOS and Android apps with Expo, sharing their rules with the web dashboard behind them.</p>
-          </li>
-        </ul>
-        <p className="section__note">
-          Video editing and ads go through my agency, <a href="https://codecutclick.com">Code Cut Click</a>.
+        <p className="section__lede">
+          Software only works if the people using it do. At Ashar I am also the one who turns the work into rules,
+          moves it off spreadsheets, and keeps the office running.
         </p>
+        <ol className="beyond">
+          {beyond.map(([title, text], i) => (
+            <li key={title}>
+              <span className="beyond__n" aria-hidden="true">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <h3>{title}</h3>
+              <p>{text}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section id="more" className="section" aria-labelledby="more-title">
+        <h2 id="more-title" className="section__title">
+          More work
+        </h2>
+        <ul className="more">
+          {moreProjects.map((p) => (
+            <li key={p.slug}>
+              <Link href={`/work/${p.slug}`}>
+                <span className="more__title">{p.title}</span>
+                <span className="more__line">{p.line}</span>
+                <span className="more__kind">
+                  {p.kind} · {p.period}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <section id="about" className="section" aria-labelledby="exp-title">
         <h2 id="exp-title" className="section__title">
-          About
+          Experience
         </h2>
         <div className="about">
-          <div>
-            <p className="section__lede">
-              I studied accounting and spent two years recording sales and chasing invoices before I wrote software
-              for that kind of work. Today I am the only developer at a company in Al-Ula, so I own everything from
-              the database schema to the phone in a receptionist&rsquo;s hand.
-            </p>
-            <ol className="timeline">
-              {experience.map((e) => (
-                <li key={e.role}>
-                  <p className="timeline__period">{e.period}</p>
-                  <h3>{e.role}</h3>
-                  <p className="timeline__org">{e.org}</p>
-                </li>
-              ))}
-              {education.map((e) => (
-                <li key={e.title}>
-                  <p className="timeline__period">{e.period}</p>
-                  <h3>{e.title}</h3>
-                </li>
-              ))}
-            </ol>
-          </div>
-          <dl className="skills">
-            {skills.map(([k, v]) => (
-              <div key={k}>
-                <dt>{k}</dt>
-                <dd>{v}</dd>
-              </div>
+          <ol className="timeline">
+            {experience.map((e) => (
+              <li key={e.role}>
+                <p className="timeline__period">{e.period}</p>
+                <h3>{e.role}</h3>
+                <p className="timeline__org">{e.org}</p>
+              </li>
             ))}
-          </dl>
+            {education.map((e) => (
+              <li key={e.title}>
+                <p className="timeline__period">{e.period}</p>
+                <h3>{e.title}</h3>
+              </li>
+            ))}
+          </ol>
+          <div className="about__side">
+            <dl className="skills">
+              {skills.map(([k, v]) => (
+                <div key={k}>
+                  <dt>{k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="actions">
+              <a className="btn btn--solid" href="/abdullah-ismail-cv.pdf">
+                Download CV
+              </a>
+              <Link className="btn" href="/cv">
+                Read it here
+              </Link>
+            </p>
+          </div>
         </div>
       </section>
 
@@ -209,7 +231,7 @@ export default function Home() {
             </a>
           </li>
           <li>
-            <Link href="/cv">CV</Link> (<a href="/abdullah-ismail-cv.pdf">PDF</a>)
+            Video and ads go through my agency, <a href="https://codecutclick.com">Code Cut Click</a>
           </li>
         </ul>
       </section>

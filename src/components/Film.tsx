@@ -46,16 +46,6 @@ export function Film({ children }: { children: ReactNode }) {
     html.dataset.filmSet = set.name;
     film.style.setProperty("--film-scroll", `${t.total}px`);
 
-    // Snap points: the scroll settles on the middle of each stop (CSS scroll-snap, proximity).
-    const pad = parseFloat(getComputedStyle(html).scrollPaddingTop) || 0;
-    // The first stop settles at the very top, the others in the middle of their hold.
-    const snaps = Object.entries(t.holds).map(([beat, { start, end }]) => {
-      const i = document.createElement("i");
-      i.className = "film-snap";
-      i.style.top = `${(beat === "hero" ? 0 : (start + end) / 2) + pad}px`;
-      film.append(i);
-      return i;
-    });
     const bar = film.querySelector<HTMLElement>(".film-progress")!;
     const stage = film.querySelector<HTMLElement>(".film-stage")!;
     let lastOut = -1;
@@ -186,6 +176,9 @@ export function Film({ children }: { children: ReactNode }) {
         shown.set(el, o);
         el.style.opacity = String(o);
         el.style.pointerEvents = o < 0.5 ? "none" : "";
+        // Copy rises into place as its stop arrives and lifts away as it leaves.
+        const inner = el.firstElementChild as HTMLElement | null;
+        if (inner) inner.style.translate = o === 1 ? "" : `0 ${(1 - o) * (y < t.holds[el.dataset.beat as Beat].start ? 28 : -28)}px`;
       }
       bar.style.transform = `scaleX(${y / t.total})`;
       // The hand-off: as the film scrolls away, the room pulls back into a framed picture and
@@ -211,6 +204,90 @@ export function Film({ children }: { children: ReactNode }) {
       window.scrollTo({ top: film.offsetTop + t.holds[beat.dataset.beat as Beat].start + 1 });
     }
 
+    // One gesture, one stop: a wheel notch, a swipe or an arrow key moves the camera to the
+    // next stop in one eased glide. Past the last stop the page is an ordinary document again.
+    const padTop = parseFloat(getComputedStyle(html).scrollPaddingTop) || 0;
+    const exitY = () => (document.getElementById("work")?.offsetTop ?? film.offsetTop + film.offsetHeight) - padTop;
+    const stops = () => [
+      film.offsetTop,
+      ...(["about", "work", "contact"] as const).map((b) => film.offsetTop + (t.holds[b].start + t.holds[b].end) / 2),
+      exitY(),
+    ];
+    let glideRaf = 0;
+    let gliding = false;
+    let calmUntil = 0;
+    const inside = (dir: number) => {
+      const y = window.scrollY;
+      const ex = exitY();
+      return dir > 0 ? y < ex - 4 : y <= ex + 4 && y > film.offsetTop + 2;
+    };
+    function glide(to: number) {
+      cancelAnimationFrame(glideRaf);
+      const from = window.scrollY;
+      const dur = Math.min(1400, 800 + Math.abs(to - from) * 0.2);
+      const t0 = performance.now();
+      gliding = true;
+      const step = (now: number) => {
+        const p = Math.min(1, (now - t0) / dur);
+        const e = p < 0.5 ? 4 * p * p * p : 1 - (-2 * p + 2) ** 3 / 2;
+        window.scrollTo(0, from + (to - from) * e);
+        if (p < 1) glideRaf = requestAnimationFrame(step);
+        else {
+          gliding = false;
+          calmUntil = now + 280; // trackpads keep sending momentum after a flick
+        }
+      };
+      glideRaf = requestAnimationFrame(step);
+    }
+    function stepTo(dir: number) {
+      const s = stops();
+      const y = window.scrollY;
+      const i = dir > 0 ? s.findIndex((v) => v > y + 4) : s.findLastIndex((v) => v < y - 4);
+      if (i >= 0) glide(s[i]);
+    }
+    const busy = () => gliding || performance.now() < calmUntil || html.classList.contains("loading");
+    function onWheel(e: WheelEvent) {
+      const dir = Math.sign(e.deltaY);
+      if (!dir || e.ctrlKey || !inside(dir)) return;
+      e.preventDefault();
+      if (!busy()) stepTo(dir);
+    }
+    let touchY = 0;
+    const onTouchStart = (e: TouchEvent) => (touchY = e.touches[0].clientY);
+    function onTouchMove(e: TouchEvent) {
+      if (inside(touchY - e.touches[0].clientY > 0 ? 1 : -1)) e.preventDefault();
+    }
+    function onTouchEnd(e: TouchEvent) {
+      const dy = touchY - e.changedTouches[0].clientY;
+      const dir = dy > 0 ? 1 : -1;
+      if (Math.abs(dy) > 24 && inside(dir) && !busy()) stepTo(dir);
+    }
+    function onKey(e: KeyboardEvent) {
+      if (e.altKey || e.ctrlKey || e.metaKey || (e.target as HTMLElement).closest("input, textarea, select, [contenteditable]")) return;
+      const dir = ["ArrowDown", "PageDown"].includes(e.key) || (e.key === " " && !e.shiftKey) ? 1 : ["ArrowUp", "PageUp"].includes(e.key) || (e.key === " " && e.shiftKey) ? -1 : 0;
+      if (!dir || !inside(dir)) return;
+      e.preventDefault();
+      if (!busy()) stepTo(dir);
+    }
+    // A dragged scrollbar or a jump link can leave the camera between stops: settle on the nearest.
+    let settle = 0;
+    function onScroll() {
+      clearTimeout(settle);
+      settle = window.setTimeout(() => {
+        const y = window.scrollY;
+        if (gliding || y >= exitY() - 4) return;
+        const s = stops();
+        const near = s.reduce((a, b) => (Math.abs(b - y) < Math.abs(a - y) ? b : a));
+        if (Math.abs(near - y) > 4) glide(near);
+      }, 220);
+    }
+    addEventListener("wheel", onWheel, { passive: false });
+    addEventListener("touchstart", onTouchStart, { passive: true });
+    addEventListener("touchmove", onTouchMove, { passive: false });
+    addEventListener("touchend", onTouchEnd);
+    addEventListener("keydown", onKey);
+    addEventListener("scroll", onScroll, { passive: true });
+
     resize();
     // `?p=0.5` opens halfway through the film.
     const jump = Number(new URLSearchParams(location.search).get("p"));
@@ -227,12 +304,19 @@ export function Film({ children }: { children: ReactNode }) {
     film.addEventListener("focusin", onFocus);
     return () => {
       clearTimeout(idle);
+      clearTimeout(settle);
       cancelAnimationFrame(raf);
+      cancelAnimationFrame(glideRaf);
+      removeEventListener("wheel", onWheel);
+      removeEventListener("touchstart", onTouchStart);
+      removeEventListener("touchmove", onTouchMove);
+      removeEventListener("touchend", onTouchEnd);
+      removeEventListener("keydown", onKey);
+      removeEventListener("scroll", onScroll);
       removeEventListener("resize", resize);
       film.removeEventListener("focusin", onFocus);
       fetching.forEach((ac) => ac.abort());
       dropBitmaps();
-      snaps.forEach((i) => i.remove());
       stage.style.transform = "";
       stage.style.borderRadius = "";
       html.classList.remove("film-on");

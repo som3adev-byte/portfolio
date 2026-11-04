@@ -1104,18 +1104,6 @@ span.theme-toggle {
 
 /* ---------- Film: snap points and progress ---------- */
 
-html.film-on {
-  scroll-snap-type: y proximity;
-}
-
-.film-snap {
-  position: absolute;
-  inset-inline-start: 0;
-  width: 1px;
-  height: 1px;
-  scroll-snap-align: start;
-  pointer-events: none;
-}
 
 .film {
   position: relative;
@@ -1325,6 +1313,7 @@ html {
     .case__head h1,
     .prose h2,
     .services h3,
+    .beyond h3,
     .timeline h3,
     .contact__big,
     .cv h2 {
@@ -1349,6 +1338,8 @@ html {
     /* Lists arrive one item after another, each on its own scroll position. */
     .card__link > :not(.card__media),
     .services li,
+    .beyond li,
+    .more li,
     .timeline li,
     .skills > div,
     .decisions > div,
@@ -1444,4 +1435,98 @@ html {
 .film-on .film-stage {
   transform-origin: 50% 100%;
   will-change: transform;
+}
+
+/* ---------- Home: main work, beyond the code, more work ---------- */
+
+.cards--main {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 19rem), 1fr));
+  gap: 2.5rem 2rem;
+}
+
+.cards--main .card h3 {
+  font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+}
+
+.beyond {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 2rem 1.75rem;
+  counter-reset: none;
+}
+
+.beyond li {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+  padding-top: 1.1rem;
+  border-top: 2px solid var(--ink);
+}
+
+.beyond__n {
+  font: 600 0.75rem/1 var(--mono);
+  color: var(--accent);
+  letter-spacing: 0.08em;
+}
+
+.beyond h3 {
+  font-size: 1.125rem;
+  letter-spacing: -0.01em;
+}
+
+.beyond p {
+  color: var(--muted);
+}
+
+.more {
+  display: grid;
+  border-top: 1px solid var(--rule);
+}
+
+.more a {
+  display: grid;
+  grid-template-columns: minmax(12rem, 1.1fr) 2fr auto;
+  gap: 0.35rem 2rem;
+  align-items: baseline;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none;
+  transition: padding 220ms var(--ease-out, ease-out), background-color 220ms ease-out;
+}
+
+.more a:hover {
+  padding-inline: 0.75rem;
+  background: var(--surface);
+  color: inherit;
+}
+
+.more__title {
+  font-weight: 650;
+  font-size: 1.0625rem;
+}
+
+.more a:hover .more__title {
+  color: var(--accent);
+}
+
+.more__line {
+  color: var(--muted);
+}
+
+.more__kind {
+  font: 400 0.75rem/1.5 var(--mono);
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .more a {
+    grid-template-columns: 1fr;
+  }
+}
+
+.about__side {
+  display: grid;
+  gap: 2rem;
+  align-content: start;
 }

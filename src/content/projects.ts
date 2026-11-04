@@ -27,6 +27,8 @@ export type Project = {
   /** Shown instead of a repo link for work that can't be public. */
   closed?: string;
   numbers?: [value: string, label: string][];
+  /** One of the three projects shown first and on the monitor. */
+  main?: true;
   figures?: Figure[];
   sections: { heading: string; blocks: Block[] }[];
 };
@@ -37,6 +39,7 @@ const rtl =
 export const projects: Project[] = [
   {
     slug: "ashar-operations",
+    main: true,
     title: "Ashar operations system",
     line: "Staff, attendance, payroll, bookings, stock and invoices for a hotel and trading company",
     kind: "Employer",
@@ -44,7 +47,7 @@ export const projects: Project[] = [
     status: "Built and tested. Preparing to replace the old system.",
     summary:
       "One system for a hotel and trading company in Al-Ula: employees, GPS-verified attendance, leave, payroll, hotel bookings, housekeeping, inventory, purchasing, tax invoices and maintenance. Arabic-first, and built for the phone, because most of the people using it are at a reception desk or walking a corridor.",
-    role: "Sole developer: specification, data model, application, tests and deployment.",
+    role: "Sole developer, and the person who runs it with the staff: specification, data model, application, tests, deployment, training and daily support.",
     stack: ["Next.js 16", "React 19", "TypeScript", "Prisma 7", "PostgreSQL", "Zod 4", "decimal.js", "Upstash Redis", "Web Push", "Vitest", "Playwright"],
     closed: "Internal company system. The code is private; screenshots use seeded demo data.",
     numbers: [
@@ -65,6 +68,12 @@ export const projects: Project[] = [
         blocks: [
           "The company already ran on a hotel system I had shipped in 2025. It worked, but it had grown one request at a time, and changing a shift, a role or a deduction rule meant changing code.",
           "The rebuild had two goals written into its specification: correct, consistent numbers everywhere, and every setting the business needs editable from a screen, so running the company never depends on someone editing code.",
+        ],
+      },
+      {
+        heading: "Beyond the code",
+        blocks: [
+          "The specification came first: I sat with each department and wrote down how approvals, shifts, deductions and payroll really work, so the rules in the system are the company's own. I train the staff on it and I am the person they call when something does not add up.",
         ],
       },
       {
@@ -104,6 +113,7 @@ export const projects: Project[] = [
   },
   {
     slug: "tourism-accounting",
+    main: true,
     title: "Ashar accounting",
     line: "Replaced the spreadsheets behind a tourism company's accounts",
     kind: "Employer",
@@ -111,9 +121,12 @@ export const projects: Project[] = [
     status: "In production and in daily use since May 2026.",
     summary:
       "A tourism company ran its accounts in Excel. The numbers did not reconcile between files, and every month the reports were rebuilt by hand. This system replaced that: expenses, revenue, payables, receivables, client and supplier payments, and reports that export to Arabic PDF and Excel.",
-    role: "Sole developer: data model, application, exports and authentication.",
+    role: "Sole developer: data model, application, exports and authentication, and the move off Excel.",
     stack: ["Next.js 16", "TypeScript", "Prisma 7", "PostgreSQL (Neon)", "Zod", "Tailwind", "jsPDF", "SheetJS"],
-    closed: "Internal company system. The code is private.",
+    closed: "Internal company system. The code is private, and its screens show the company's real figures, so the money flow is drawn here instead.",
+    figures: [
+      { src: "/work/erp-flow.svg", width: 1440, height: 760, alt: "Diagram of an invoice, its payments, the balance and the reports", caption: "How money moves: a 10,000 invoice paid 4,000 keeps one invoice, gains one payment row and carries a 6,000 balance marked PARTIAL. Opening balances from Excel are loaded once and kept apart in every report." },
+    ],
     numbers: [
       ["4", "kinds of user: accountant, finance manager, owner, data entry"],
       ["1", "month reconciled against the old spreadsheets"],
@@ -158,6 +171,7 @@ export const projects: Project[] = [
   },
   {
     slug: "mizan",
+    main: true,
     title: "Mizan",
     line: "Compliance platform for the Saudi ECC-2:2024 cybersecurity controls",
     kind: "Independent",
@@ -339,6 +353,9 @@ export const projects: Project[] = [
 export function coverOf(p: Project) {
   return p.figures?.find((f) => f.width > f.height) ?? p.figures?.[0];
 }
+
+export const mainProjects = projects.filter((p) => p.main);
+export const moreProjects = projects.filter((p) => !p.main);
 
 export function getProject(slug: string) {
   return projects.find((p) => p.slug === slug);

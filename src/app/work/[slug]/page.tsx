@@ -99,7 +99,7 @@ export default async function WorkPage({ params }: PageProps<"/work/[slug]">) {
       <ViewTransition name={`cover-${p.slug}`} share="morph" default="none">
         <figure className="case__hero">
           {cover ? (
-            <Image src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} sizes="(max-width: 1200px) 100vw, 1150px" priority />
+            <Image src={cover.src} unoptimized={cover.src.endsWith(".svg")} alt={cover.alt} width={cover.width} height={cover.height} sizes="(max-width: 1200px) 100vw, 1150px" priority />
           ) : (
             <span className="card__mono" aria-hidden="true">
               {p.slug}
@@ -141,6 +141,7 @@ export default async function WorkPage({ params }: PageProps<"/work/[slug]">) {
             <figure key={f.src} className={f.width > f.height * 1.2 ? "wide" : "tall"}>
               <Image
                 src={f.src}
+                unoptimized={f.src.endsWith(".svg")}
                 alt={f.alt}
                 width={f.width}
                 height={f.height}
