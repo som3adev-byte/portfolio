@@ -11,8 +11,8 @@ for (const [name, w, h, mobile] of [["d", 1440, 900, false], ["m", 390, 844, tru
   page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
   await page.goto(base, { waitUntil: "networkidle" });
   // Film beats: the middle of each hold.
-  // Middle of each hold, from STEPS in src/lib/film.ts.
-  const holds = { hero: 200, about: 2300, work: 4590, contact: 7030 };
+  // Middle of each hold, from the set's steps in src/lib/film.ts.
+  const holds = mobile ? { hero: 120, about: 1380, work: 2754, contact: 4218 } : { hero: 200, about: 2300, work: 4590, contact: 7030 };
   for (const [beat, y] of Object.entries(holds)) {
     await page.evaluate((y) => scrollTo(0, y), y);
     await page.waitForTimeout(1200);
