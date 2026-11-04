@@ -68,8 +68,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           </Link>
           <nav aria-label="Main">
             <Link href="/#work">Work</Link>
-            <Link href="/#about">About</Link>
-            <Link href="/cv">CV</Link>
+            <Link href="/#about" data-wide>
+              About
+            </Link>
+            <Link href="/cv" data-wide>
+              CV
+            </Link>
             <Link href="/#contact">Contact</Link>
             <ThemeToggle />
           </nav>
@@ -80,7 +84,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {site.name} · {site.location}
           </p>
           <p>
-            <a href={`mailto:${site.email}`}>{site.email}</a> · <a href={site.github} rel="me">GitHub</a>
+            <a href={`mailto:${site.email}`}>{site.email}</a> · <a href={site.github} rel="me">GitHub</a> · <Link href="/cv">CV</Link>
           </p>
         </footer>
       </body>

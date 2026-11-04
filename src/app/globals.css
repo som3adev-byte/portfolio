@@ -165,6 +165,9 @@ a:hover {
 }
 
 @media (max-width: 520px) {
+  .site-header nav a[data-wide] {
+    display: none;
+  }
   .site-header__name {
     font-size: 0;
   }
@@ -248,6 +251,14 @@ a:hover {
   .beat--contact { background-image: url("/film/9x16/186.webp"); }
 }
 
+/* Phones get their own light frame set (same rule as pickSet in src/lib/film.ts). */
+@media (orientation: portrait) and (max-width: 600px) {
+  .beat--hero { background-image: url("/film/phone/000.webp"); }
+  .beat--about { background-image: url("/film/phone/035.webp"); }
+  .beat--work { background-image: url("/film/phone/081.webp"); }
+  .beat--contact { background-image: url("/film/phone/120.webp"); }
+}
+
 .film-on .film {
   height: calc(var(--film-scroll) + 100lvh);
 }
@@ -265,6 +276,47 @@ a:hover {
   .film-on .film-stage {
     background-image: url("/film/9x16/000.webp");
   }
+}
+
+html[data-film-set="phone"] .film-stage {
+  background-image: url("/film/phone/000.webp");
+}
+
+/* Shown only while the film is running; the no-film layout has nothing to skip. */
+.film-skip {
+  display: none;
+}
+
+.film-on .film-skip {
+  display: inline-flex;
+  align-items: center;
+  position: fixed;
+  z-index: 30;
+  inset-inline-end: var(--gutter);
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  min-height: 2.75rem;
+  padding: 0 1rem;
+  border-radius: 999px;
+  background: rgb(10 10 10 / 0.82);
+  color: #fff;
+  font: 600 0.8125rem/1 var(--mono);
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+  transition: opacity 200ms ease-out, transform 120ms ease-out;
+}
+
+.film-skip:hover {
+  color: #fff;
+  background: var(--accent);
+}
+
+.film-skip:active {
+  transform: scale(0.97);
+}
+
+.film[data-past] .film-skip {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .film-on .film canvas {
@@ -450,6 +502,19 @@ a:hover {
   }
   .beat--about .statement {
     font-size: clamp(1.25rem, 1rem + 1.5vw, 1.75rem);
+  }
+}
+
+/* On phones the tower rises higher in the frame: keep the ledger above it. */
+@media (orientation: portrait) and (max-width: 600px) {
+  .beat--about .beat__in {
+    top: 9svh;
+  }
+  .beat--about .statement {
+    font-size: 1.2rem;
+  }
+  .ledger div:nth-child(n + 4) {
+    display: none;
   }
   .ledger div {
     grid-template-columns: 5rem 1fr;
