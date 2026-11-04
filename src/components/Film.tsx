@@ -48,10 +48,11 @@ export function Film({ children }: { children: ReactNode }) {
 
     // Snap points: the scroll settles on the middle of each stop (CSS scroll-snap, proximity).
     const pad = parseFloat(getComputedStyle(html).scrollPaddingTop) || 0;
-    const snaps = Object.values(t.holds).map(({ start, end }) => {
+    // The first stop settles at the very top, the others in the middle of their hold.
+    const snaps = Object.entries(t.holds).map(([beat, { start, end }]) => {
       const i = document.createElement("i");
       i.className = "film-snap";
-      i.style.top = `${(start + end) / 2 + pad}px`;
+      i.style.top = `${(beat === "hero" ? 0 : (start + end) / 2) + pad}px`;
       film.append(i);
       return i;
     });
