@@ -303,20 +303,19 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: "birthday",
-    title: "A Birthday for You",
-    line: "Interactive birthday experience that reads hands, face and gestures through the webcam",
+    slug: "gesture-3d",
+    title: "Gesture-controlled 3D experience",
+    line: "Hands, face and gestures read live through the camera drive a 3D scene in the browser",
     kind: "Independent",
     period: "2026",
-    status: "Live. Personal project.",
+    status: "Live. Built as a personal piece, shown here for the engineering.",
     summary:
-      "A guided birthday experience made for one person: 3D scenes, music, a game and a cake sequence. It reads hands, face and gestures live through the webcam with MediaPipe, entirely in the browser. Nothing leaves the device.",
+      "An interactive web experience in several 3D scenes, with music, a small game and an animated finale. Instead of a mouse or a touch screen, the visitor's hands, face and gestures, read live through the camera, move the story along. All of the recognition runs on the visitor's own device; no video leaves the browser.",
     role: "Idea, design and build.",
     stack: ["Next.js", "React Three Fiber", "Three.js", "MediaPipe Tasks Vision", "Zustand", "Playwright"],
-    live: "https://bdc-liora.vercel.app",
-    closed: "Repository is private.",
+    closed: "Personal project: the repository and the live link stay private.",
     figures: [
-      { src: "/work/bdc-intro.jpg", width: 1440, height: 900, alt: "Birthday site opening screen with flowers", caption: "The opening: messages one card at a time, and a tap anywhere grows a flower from the bottom of the screen." },
+      { src: "/work/vision-flowers.jpg", width: 1440, height: 300, alt: "Glowing flowers growing from the bottom of a dark screen", caption: "The opening scene: every tap grows a new flower from the bottom of the screen, before the camera-driven part begins." },
     ],
     sections: [
       {
@@ -324,9 +323,10 @@ export const projects: Project[] = [
         blocks: [
           {
             items: [
-              { title: "Computer vision in the browser", text: "Face, hand and gesture models from MediaPipe Tasks Vision run on the visitor's own device through the camera. No video is uploaded anywhere." },
-              { title: "A scene, not a page", text: "The experience moves through 3D scenes built with React Three Fiber, with Zustand for the state the scenes share." },
-              { title: "Tested like a product", text: "It has Playwright tests, even though it was made for one person." },
+              { title: "Three kinds of vision input at once", text: "MediaPipe's face, hand and gesture models run side by side in the browser, so the scene can respond to the face, the hands and recognised gestures separately." },
+              { title: "Private by design", text: "The camera stream is read and discarded frame by frame on the device. Nothing is uploaded, which is the only way a camera-driven page can be shared without a privacy question." },
+              { title: "3D that stays a web page", text: "The scenes are React Three Fiber components, with Zustand for the state the scenes share, so the 3D lives inside an ordinary Next.js app." },
+              { title: "Tested like a product", text: "It has Playwright tests, even though it began as a personal piece." },
             ],
           },
         ],
