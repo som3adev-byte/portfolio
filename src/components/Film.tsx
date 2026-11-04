@@ -57,6 +57,8 @@ export function Film({ children }: { children: ReactNode }) {
       return i;
     });
     const bar = film.querySelector<HTMLElement>(".film-progress")!;
+    const stage = film.querySelector<HTMLElement>(".film-stage")!;
+    let lastOut = -1;
 
     const blobs = new Map<number, Blob>();
     const fetching = new Map<number, AbortController>();
@@ -186,6 +188,14 @@ export function Film({ children }: { children: ReactNode }) {
         el.style.pointerEvents = o < 0.5 ? "none" : "";
       }
       bar.style.transform = `scaleX(${y / t.total})`;
+      // The hand-off: as the film scrolls away, the room pulls back into a framed picture and
+      // the work grid comes up under it, one continuous move instead of a cut.
+      const out = Math.min(1, Math.max(0, (window.scrollY - film.offsetTop - t.total) / innerHeight));
+      if (out !== lastOut) {
+        lastOut = out;
+        stage.style.transform = out ? `scale(${1 - 0.1 * out})` : "";
+        stage.style.borderRadius = out ? `${out * 18}px` : "";
+      }
       const nowPast = window.scrollY - film.offsetTop >= t.total;
       if (nowPast !== past) {
         past = nowPast;
@@ -223,6 +233,8 @@ export function Film({ children }: { children: ReactNode }) {
       fetching.forEach((ac) => ac.abort());
       dropBitmaps();
       snaps.forEach((i) => i.remove());
+      stage.style.transform = "";
+      stage.style.borderRadius = "";
       html.classList.remove("film-on");
       delete html.dataset.filmSet;
     };

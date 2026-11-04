@@ -1,8 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ViewTransition } from "react";
 import { Film } from "@/components/Film";
 import { Loader } from "@/components/Loader";
-import { projects } from "@/content/projects";
+import { coverOf, projects } from "@/content/projects";
 import { education, experience, site, skills } from "@/content/site";
 
 const pad = Math.max(...projects.map((p) => p.slug.length)) + 2;
@@ -68,7 +69,9 @@ export default function Home() {
               {projects.map((p) => (
                 <li key={p.slug}>
                   <Link href={`/work/${p.slug}`}>
-                    <span className="ls__slug">{p.slug.padEnd(pad, " ")}</span>
+                    <ViewTransition name={`title-${p.slug}`} share="morph" default="none">
+                      <span className="ls__slug">{p.slug.padEnd(pad, " ")}</span>
+                    </ViewTransition>
                     <span className="ls__line">{p.line}</span>
                   </Link>
                 </li>
@@ -100,19 +103,21 @@ export default function Home() {
         </p>
         <ul className="cards">
           {projects.map((p) => {
-            const img = p.figures?.find((f) => f.width > f.height) ?? p.figures?.[0];
+            const img = coverOf(p);
             return (
               <li key={p.slug} className="card">
                 <Link href={`/work/${p.slug}`} className="card__link">
-                  <div className="card__media">
-                    {img ? (
-                      <Image src={img.src} alt="" width={img.width} height={img.height} sizes="(max-width: 768px) 100vw, 33vw" />
-                    ) : (
-                      <span className="card__mono" aria-hidden="true">
-                        {p.slug}
-                      </span>
-                    )}
-                  </div>
+                  <ViewTransition name={`cover-${p.slug}`} share="morph" default="none">
+                    <div className="card__media">
+                      {img ? (
+                        <Image src={img.src} alt="" width={img.width} height={img.height} sizes="(max-width: 768px) 100vw, 33vw" />
+                      ) : (
+                        <span className="card__mono" aria-hidden="true">
+                          {p.slug}
+                        </span>
+                      )}
+                    </div>
+                  </ViewTransition>
                   <p className="card__kind">
                     {p.kind} · {p.period}
                   </p>

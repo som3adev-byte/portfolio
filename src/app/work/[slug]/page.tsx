@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProject, neighbours, projects, type Block } from "@/content/projects";
+import { ViewTransition, type CSSProperties } from "react";
+import { coverOf, getProject, neighbours, projects, type Block } from "@/content/projects";
 import { site } from "@/content/site";
 
 export const dynamicParams = false;
@@ -20,6 +21,17 @@ export async function generateMetadata({ params }: PageProps<"/work/[slug]">): P
     alternates: { canonical: `/work/${p.slug}` },
     openGraph: p.figures?.[0] ? { images: [p.figures[0].src] } : undefined,
   };
+}
+
+/** A number that rolls up to its value (CSS only); text like "~185" keeps its prefix. */
+function Num({ value }: { value: string }) {
+  const m = /^(\D*)(\d+)$/.exec(value);
+  if (!m) return <strong>{value}</strong>;
+  return (
+    <strong data-n={m[2]} data-pre={m[1]} style={{ "--to": m[2] } as CSSProperties}>
+      <span className="n">{value}</span>
+    </strong>
+  );
 }
 
 function Blocks({ blocks }: { blocks: Block[] }) {
@@ -50,6 +62,8 @@ export default async function WorkPage({ params }: PageProps<"/work/[slug]">) {
   const p = getProject((await params).slug);
   if (!p) notFound();
   const { prev, next } = neighbours(p.slug);
+  const cover = coverOf(p);
+  const figures = p.figures?.filter((f) => f !== cover);
 
   return (
     <article className="case">
@@ -61,7 +75,9 @@ export default async function WorkPage({ params }: PageProps<"/work/[slug]">) {
         <p className="eyebrow">
           {p.kind} · {p.period}
         </p>
-        <h1>{p.title}</h1>
+        <ViewTransition name={`title-${p.slug}`} share="morph" default="none">
+          <h1>{p.title}</h1>
+        </ViewTransition>
         <p className="case__summary">{p.summary}</p>
         {(p.live || p.repo) && (
           <p className="case__links">
@@ -79,6 +95,19 @@ export default async function WorkPage({ params }: PageProps<"/work/[slug]">) {
         )}
         {p.closed && <p className="case__closed">{p.closed}</p>}
       </header>
+
+      <ViewTransition name={`cover-${p.slug}`} share="morph" default="none">
+        <figure className="case__hero">
+          {cover ? (
+            <Image src={cover.src} alt={cover.alt} width={cover.width} height={cover.height} sizes="(max-width: 1200px) 100vw, 1150px" priority />
+          ) : (
+            <span className="card__mono" aria-hidden="true">
+              {p.slug}
+            </span>
+          )}
+        </figure>
+      </ViewTransition>
+      {cover && <p className="case__hero-caption">{cover.caption}</p>}
 
       <dl className="facts">
         <div>
@@ -99,16 +128,16 @@ export default async function WorkPage({ params }: PageProps<"/work/[slug]">) {
         <ul className="numbers" aria-label="In numbers">
           {p.numbers.map(([v, l]) => (
             <li key={l}>
-              <strong>{v}</strong>
+              <Num value={v} />
               <span>{l}</span>
             </li>
           ))}
         </ul>
       )}
 
-      {p.figures && (
+      {figures && figures.length > 0 && (
         <div className="figures">
-          {p.figures.map((f) => (
+          {figures.map((f) => (
             <figure key={f.src} className={f.width > f.height * 1.2 ? "wide" : "tall"}>
               <Image
                 src={f.src}

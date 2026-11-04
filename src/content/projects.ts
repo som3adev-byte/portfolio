@@ -335,6 +335,11 @@ export const projects: Project[] = [
   },
 ];
 
+/** The image a project is shown with on its card and at the top of its page. */
+export function coverOf(p: Project) {
+  return p.figures?.find((f) => f.width > f.height) ?? p.figures?.[0];
+}
+
 export function getProject(slug: string) {
   return projects.find((p) => p.slug === slug);
 }

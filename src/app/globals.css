@@ -232,31 +232,72 @@ a:hover {
   display: none;
 }
 
-/* Without the film (no JavaScript, reduced motion): each beat is a section over its still. */
+/* Without the film (no JavaScript, reduced motion, slow link, landscape phone, ?static):
+   each beat is a section over its still. --still is the beat's anchor frame. */
 .beat {
   position: relative;
   min-height: 100svh;
-  background: #fff center / cover no-repeat;
+  background: #fff var(--still) center / cover no-repeat;
 }
 
-.beat--hero { background-image: url("/film/16x9-v2/000.webp"); }
-.beat--about { background-image: url("/film/16x9-v2/060.webp"); }
-.beat--work { background-image: url("/film/16x9-v2/128.webp"); }
-.beat--contact { background-image: url("/film/16x9-v2/186.webp"); }
+.beat--hero { --still: url("/film/16x9-v2/000.webp"); }
+.beat--about { --still: url("/film/16x9-v2/060.webp"); }
+.beat--work { --still: url("/film/16x9-v2/128.webp"); }
+.beat--contact { --still: url("/film/16x9-v2/186.webp"); }
 
 @media (orientation: portrait) {
-  .beat--hero { background-image: url("/film/9x16/000.webp"); }
-  .beat--about { background-image: url("/film/9x16/060.webp"); }
-  .beat--work { background-image: url("/film/9x16/128.webp"); }
-  .beat--contact { background-image: url("/film/9x16/186.webp"); }
+  .beat--hero { --still: url("/film/9x16/000.webp"); }
+  .beat--about { --still: url("/film/9x16/060.webp"); }
+  .beat--work { --still: url("/film/9x16/128.webp"); }
+  .beat--contact { --still: url("/film/9x16/186.webp"); }
 }
 
 /* Phones get their own light frame set (same rule as pickSet in src/lib/film.ts). */
 @media (orientation: portrait) and (max-width: 600px) {
-  .beat--hero { background-image: url("/film/phone/000.webp"); }
-  .beat--about { background-image: url("/film/phone/035.webp"); }
-  .beat--work { background-image: url("/film/phone/081.webp"); }
-  .beat--contact { background-image: url("/film/phone/120.webp"); }
+  .beat--hero { --still: url("/film/phone/000.webp"); }
+  .beat--about { --still: url("/film/phone/035.webp"); }
+  .beat--work { --still: url("/film/phone/081.webp"); }
+  .beat--contact { --still: url("/film/phone/120.webp"); }
+}
+
+/* Plain pages on phones: after the hero, each stop is a short framed still with its text
+   under it, and the monitor becomes a terminal card, instead of four screens of photos. */
+@media (max-width: 600px) {
+  html:not(.film-on) .beat:not(.beat--hero) {
+    min-height: 0;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    padding: 3rem var(--gutter) 0;
+  }
+  html:not(.film-on) .beat:not(.beat--hero) .beat__in {
+    position: static;
+    width: auto;
+    inset: auto;
+  }
+  html:not(.film-on) .beat--about::after,
+  html:not(.film-on) .beat--contact::after {
+    content: "";
+    order: 1;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius);
+    background: var(--still) center 70% / cover no-repeat;
+  }
+  html:not(.film-on) .beat--contact::before {
+    display: none;
+  }
+  html:not(.film-on) .beat--work .beat__in {
+    padding: 1.5rem 1.25rem;
+    border-radius: var(--radius);
+    background: #0a0a0a;
+  }
+  html:not(.film-on) .beat--work {
+    color: #f2f2f2;
+  }
+  html:not(.film-on) .ledger div:nth-child(n + 4) {
+    display: grid;
+  }
 }
 
 .film-on .film {
@@ -1202,4 +1243,205 @@ html.loading .loader,
 
 html {
   -webkit-tap-highlight-color: transparent;
+}
+
+/* ---------- Motion across the site ----------
+   Scroll-driven CSS only: it runs off the main thread and needs no script. Browsers without
+   animation-timeline, and anyone with reduced motion, get the final state. */
+
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-move: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+@property --roll {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes rise-in {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.6em);
+  }
+  to {
+    clip-path: inset(0 0 -0.2em 0);
+    transform: none;
+  }
+}
+
+@keyframes curtain {
+  from {
+    clip-path: inset(100% 0 0 0 round var(--radius));
+  }
+  to {
+    clip-path: inset(0 0 0 0 round var(--radius));
+  }
+}
+
+@keyframes settle {
+  from {
+    transform: scale(1.08);
+  }
+  to {
+    transform: none;
+  }
+}
+
+@keyframes step-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes roll {
+  from {
+    --roll: 0;
+  }
+  to {
+    --roll: var(--to);
+  }
+}
+
+@keyframes drift {
+  from {
+    background-position: center 30%;
+  }
+  to {
+    background-position: center 70%;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* Headlines rise from behind an edge (a mask line, never a fade). */
+    .section__title,
+    .case__head h1,
+    .prose h2,
+    .services h3,
+    .timeline h3,
+    .contact__big,
+    .cv h2 {
+      animation: rise-in linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 30%;
+    }
+
+    /* Project images open like a curtain while the picture settles inside. */
+    .card__media,
+    .figures figure > img {
+      animation: curtain linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+    }
+    .card__media img {
+      animation: settle linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 50%;
+    }
+
+    /* Lists arrive one item after another, each on its own scroll position. */
+    .card__link > :not(.card__media),
+    .services li,
+    .timeline li,
+    .skills > div,
+    .decisions > div,
+    .facts > div,
+    .prose p,
+    .prose ul li,
+    .case__cta,
+    .cv__item,
+    .contact__list li {
+      animation: step-in linear both;
+      animation-timeline: view();
+      animation-range: entry 5% cover 25%;
+    }
+
+    /* Numbers roll up to their value as they come into view. */
+    .numbers strong[data-n] {
+      counter-reset: n var(--roll);
+      animation: roll linear both;
+      animation-timeline: view();
+      animation-range: entry 20% cover 45%;
+    }
+    .numbers strong[data-n] .n {
+      display: none;
+    }
+    .numbers strong[data-n]::before {
+      content: attr(data-pre) counter(n);
+    }
+
+    /* Plain pages with motion allowed (slow link, landscape phone, ?static): the still drifts. */
+    html:not(.film-on) .beat {
+      animation: drift linear both;
+      animation-timeline: view();
+    }
+  }
+
+  /* Nav links: an underline that grows from the left. */
+  .site-header nav a {
+    background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat;
+    transition: background-size 220ms var(--ease-out);
+  }
+  .site-header nav a:hover,
+  .site-header nav a[aria-current="page"] {
+    background-size: 100% 1px;
+  }
+
+  /* Page-to-page: a card's image becomes the project's hero, and back again. */
+  ::view-transition-group(.morph) {
+    animation-duration: 420ms;
+    animation-timing-function: var(--ease-move);
+  }
+  ::view-transition-image-pair(.morph) {
+    animation-name: via-blur;
+  }
+  @keyframes via-blur {
+    40% {
+      filter: blur(2px);
+    }
+  }
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 220ms;
+  }
+}
+
+/* The project's hero image on its own page. */
+.case__hero {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+  margin-bottom: 3rem;
+}
+
+.case__hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.case__hero .card__mono {
+  font-size: clamp(1.25rem, 1rem + 2vw, 2.5rem);
+}
+
+.case__hero-caption {
+  margin: -2.25rem 0 3rem;
+  font-size: 0.875rem;
+  color: var(--muted);
+  max-width: 44rem;
+}
+
+.film-on .film-stage {
+  transform-origin: 50% 100%;
+  will-change: transform;
 }
