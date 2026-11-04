@@ -46,6 +46,17 @@ export function Film({ children }: { children: ReactNode }) {
     html.dataset.filmSet = set.name;
     film.style.setProperty("--film-scroll", `${t.total}px`);
 
+    // Snap points: the scroll settles on the middle of each stop (CSS scroll-snap, proximity).
+    const pad = parseFloat(getComputedStyle(html).scrollPaddingTop) || 0;
+    const snaps = Object.values(t.holds).map(({ start, end }) => {
+      const i = document.createElement("i");
+      i.className = "film-snap";
+      i.style.top = `${(start + end) / 2 + pad}px`;
+      film.append(i);
+      return i;
+    });
+    const bar = film.querySelector<HTMLElement>(".film-progress")!;
+
     const blobs = new Map<number, Blob>();
     const fetching = new Map<number, AbortController>();
     let bitmaps = new Map<number, ImageBitmap>();
@@ -173,6 +184,7 @@ export function Film({ children }: { children: ReactNode }) {
         el.style.opacity = String(o);
         el.style.pointerEvents = o < 0.5 ? "none" : "";
       }
+      bar.style.transform = `scaleX(${y / t.total})`;
       const nowPast = window.scrollY - film.offsetTop >= t.total;
       if (nowPast !== past) {
         past = nowPast;
@@ -189,6 +201,9 @@ export function Film({ children }: { children: ReactNode }) {
     }
 
     resize();
+    // `?p=0.5` opens halfway through the film.
+    const jump = Number(new URLSearchParams(location.search).get("p"));
+    if (jump > 0 && jump <= 1) window.scrollTo({ top: film.offsetTop + jump * t.total });
     pump(); // frame 0 only: it is the poster, already cached
     // A visitor who reads the hero for a moment gets the first few frames, nothing more.
     const idle = setTimeout(() => {
@@ -206,6 +221,7 @@ export function Film({ children }: { children: ReactNode }) {
       film.removeEventListener("focusin", onFocus);
       fetching.forEach((ac) => ac.abort());
       dropBitmaps();
+      snaps.forEach((i) => i.remove());
       html.classList.remove("film-on");
       delete html.dataset.filmSet;
     };
@@ -213,6 +229,7 @@ export function Film({ children }: { children: ReactNode }) {
 
   return (
     <div ref={root} className="film">
+      <span className="film-progress" aria-hidden="true" />
       <a className="film-skip" href="#work">
         Skip to work ↓
       </a>
