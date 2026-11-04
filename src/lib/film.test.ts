@@ -46,9 +46,10 @@ for (const set of Object.values(SETS)) {
 }
 
 describe("film shared rules", () => {
-  it("never draws the broken frames of the big sets", () => {
+  it("never draws the broken frames of the portrait set; the repaired wide set draws them all", () => {
+    expect(SETS.wide.broken).toBeUndefined();
     for (let f = 0; f < 187; f += 0.25) {
-      const d = drawable(SETS.wide, f);
+      const d = drawable(SETS.portrait, f);
       expect(d < 32 || d > 38).toBe(true);
     }
   });
@@ -61,7 +62,7 @@ describe("film shared rules", () => {
   });
 
   it("is ~0.6 as long on phones as on desktop", () => {
-    const ratio = timeline(SETS.phone.steps).total / timeline(SETS.wide.steps).total;
+    const ratio = timeline(SETS.phone.steps).total / timeline(SETS.portrait.steps).total;
     expect(ratio).toBeGreaterThan(0.55);
     expect(ratio).toBeLessThan(0.65);
   });

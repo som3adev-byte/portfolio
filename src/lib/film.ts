@@ -21,7 +21,7 @@ export type FilmSet = {
   behind: number;
 };
 
-// Desktop and tablets: every other source frame (187). Moves run at ~30px per frame; two
+// Tablets (and desktop before its repair): every other source frame (187). Moves run at ~30px per frame; two
 // stretches run faster: the broken one (stepped straight over) and the pull-back past a wide
 // view the hero already showed.
 const BIG_STEPS: Step[] = [
@@ -39,11 +39,15 @@ const BIG_STEPS: Step[] = [
   { hold: "contact", px: 500 },
 ];
 
-const BIG = { frames: 187, anchors: { hero: 0, about: 60, work: 128, contact: 186 }, broken: [32, 38] as const, steps: BIG_STEPS };
+const BIG = { frames: 187, anchors: { hero: 0, about: 60, work: 128, contact: 186 } };
+
+// The wide set's broken stretch was regenerated (tools/splice.py), so its first move is one
+// steady move; the portrait set still skips it.
+const WIDE_STEPS: Step[] = [{ hold: "hero", px: 400 }, { from: 0, to: 60, px: 1800 }, ...BIG_STEPS.slice(4)];
 
 export const SETS: Record<FilmSet["name"], FilmSet> = {
-  wide: { name: "wide", folder: "/film/16x9", width: 1924, height: 1076, ahead: 48, behind: 12, ...BIG },
-  portrait: { name: "portrait", folder: "/film/9x16", width: 1076, height: 1924, ahead: 24, behind: 6, ...BIG },
+  wide: { name: "wide", folder: "/film/16x9-v2", width: 1924, height: 1076, ahead: 48, behind: 12, ...BIG, steps: WIDE_STEPS },
+  portrait: { name: "portrait", folder: "/film/9x16", width: 1076, height: 1924, ahead: 24, behind: 6, ...BIG, broken: [32, 38], steps: BIG_STEPS },
   // Phones: 720px wide, every third source frame plus the anchors, without the broken stretch
   // (so nothing to skip), on a timeline 0.6 the length of the desktop one.
   phone: {

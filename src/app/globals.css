@@ -239,10 +239,10 @@ a:hover {
   background: #fff center / cover no-repeat;
 }
 
-.beat--hero { background-image: url("/film/16x9/000.webp"); }
-.beat--about { background-image: url("/film/16x9/060.webp"); }
-.beat--work { background-image: url("/film/16x9/128.webp"); }
-.beat--contact { background-image: url("/film/16x9/186.webp"); }
+.beat--hero { background-image: url("/film/16x9-v2/000.webp"); }
+.beat--about { background-image: url("/film/16x9-v2/060.webp"); }
+.beat--work { background-image: url("/film/16x9-v2/128.webp"); }
+.beat--contact { background-image: url("/film/16x9-v2/186.webp"); }
 
 @media (orientation: portrait) {
   .beat--hero { background-image: url("/film/9x16/000.webp"); }
@@ -269,7 +269,7 @@ a:hover {
   height: 100lvh;
   overflow: hidden;
   /* The first frame, so the room is there before any frame is decoded. */
-  background: #fff url("/film/16x9/000.webp") center / cover no-repeat;
+  background: #fff url("/film/16x9-v2/000.webp") center / cover no-repeat;
 }
 
 @media (orientation: portrait) {
