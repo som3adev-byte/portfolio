@@ -44,6 +44,39 @@ export default function Home() {
               </a>
             </p>
           </div>
+          {/* Shown only when the film is not running: the hero's picture, drawn in type. */}
+          <div className="hero__term" aria-hidden="true">
+            <p className="hero__cmd">$ whoami</p>
+            <dl>
+              <div>
+                <dt>name</dt>
+                <dd>{site.name}</dd>
+              </div>
+              <div>
+                <dt>role</dt>
+                <dd>{site.role}</dd>
+              </div>
+              <div>
+                <dt>based</dt>
+                <dd>{site.location}</dd>
+              </div>
+              <div>
+                <dt>now</dt>
+                <dd>Sole developer, Ashar Company</dd>
+              </div>
+              <div>
+                <dt>builds</dt>
+                <dd>accounting · payroll · HR · stock</dd>
+              </div>
+              <div>
+                <dt>status</dt>
+                <dd className="hero__ok">open to roles and projects</dd>
+              </div>
+            </dl>
+            <p className="hero__cmd">
+              $ <span className="hero__caret" />
+            </p>
+          </div>
         </section>
 
         <section data-beat="about" className="beat beat--about" aria-labelledby="about-title">

@@ -47,6 +47,10 @@ const themeScript = `try{var t=localStorage.getItem("theme");if(t)document.docum
 
 // The home loader shows only once per visit, never with reduced motion or ?noload, and
 // removes itself after 4 s if the page script never runs.
+// Guess before paint whether the home film will run (same rules as Film.tsx), so the first
+// paint is the film's layout or the plain one, never one and then the other.
+const filmScript = `try{var c=navigator.connection||{},q=location.search;if(location.pathname==="/"&&!/static/.test(q)&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&!c.saveData&&!/(^|-)2g$|^3g$/.test(c.effectiveType||"")&&!(innerWidth>innerHeight&&innerHeight<=500)&&typeof createImageBitmap==="function"){var h=document.documentElement;h.classList.add("film-on");setTimeout(function(){if(!h.dataset.filmSet)h.classList.remove("film-on")},6000)}}catch(e){}`;
+
 const loaderScript = `try{var h=document.documentElement;if(location.pathname==="/"&&!/noload/.test(location.search)&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&sessionStorage.getItem("seen")!=="1"){h.classList.add("loading");setTimeout(function(){h.classList.remove("loading")},4000)}}catch(e){}`;
 
 const jsonLd = {
@@ -65,6 +69,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" dir="ltr" className={`${sans.variable} ${mono.variable} ${archivo.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+        <script dangerouslySetInnerHTML={{ __html: filmScript }} />
         <script dangerouslySetInnerHTML={{ __html: loaderScript }} />
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>

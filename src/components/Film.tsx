@@ -29,14 +29,17 @@ export function Film({ children }: { children: ReactNode }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
-    // `?static` shows the stills layout, for checking it without changing OS settings.
-    if (matchMedia("(prefers-reduced-motion: reduce)").matches || slowNetwork() || location.search.includes("static")) return;
+    // The inline script in layout.tsx guesses before paint whether the film will run, so the
+    // first paint is already the right layout; if the guess was wrong, take it back here.
+    const noFilm = () => document.documentElement.classList.remove("film-on");
+    // `?static` shows the plain layout, for checking it without changing OS settings.
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches || slowNetwork() || location.search.includes("static")) return noFilm();
     // The set is chosen once at load; rotating mid-visit keeps it and just redraws to fit.
     const set = pickSet(innerWidth, innerHeight);
     const film = root.current!;
     const canvas = canvasRef.current!;
     const ctx = canvas.getContext("2d", { alpha: false });
-    if (!set || !ctx || typeof createImageBitmap !== "function") return;
+    if (!set || !ctx || typeof createImageBitmap !== "function") return noFilm();
 
     const t = timeline(set.steps);
     const beats = [...film.querySelectorAll<HTMLElement>("[data-beat]")];
