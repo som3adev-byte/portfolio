@@ -6,7 +6,7 @@ export const site = {
   email: "abdullah.ismail.pro@gmail.com",
   phone: { href: "tel:+966510042472", label: "+966 51 004 2472" },
   github: "https://github.com/som3adev-byte",
-  linkedin: "https://www.linkedin.com/in/abdullah-ismail-dev",
+  linkedin: "https://www.linkedin.com/in/abdallah-ismail-dev",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   availability: "Open to full-time roles and to freelance projects.",
 } as const;
