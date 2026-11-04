@@ -294,36 +294,12 @@ export const projects: Project[] = [
           {
             items: [
               { title: "An x-ray, not a mock-up", text: "On the Code page the cursor is a lens that shows the code under each region of a live page, and the page then separates into seven layers, from interface to server." },
-              { title: "Real work inside the page", text: "The Cut page plays real reels inside a phone, and the Code page runs a real Expo app inside an iPhone frame." },
+              { title: "Real work inside the page", text: "The Cut page plays the studio's real reels inside a phone frame instead of mock footage." },
             ],
           },
         ],
       },
       { heading: "What is still open", blocks: ["Prices, sample brands and numbers on the pages are placeholders until final figures are set."] },
-    ],
-  },
-  {
-    slug: "loop",
-    title: "Loop",
-    line: "Habit tracker built with Expo, running on iOS, Android and the web",
-    kind: "Independent",
-    period: "Oct 2026",
-    status: "Demo app. Not in the app stores.",
-    summary: "A small habit tracker with Today, Stats and Settings tabs, an add-and-edit sheet, haptics and its own icon and launch screen. Its web build runs live inside the Code Cut Click site.",
-    role: "Design and build.",
-    stack: ["Expo SDK 57", "React Native", "TypeScript", "react-native-svg", "AsyncStorage"],
-    live: "https://codecutclick.com/app/",
-    closed: "Repository is private.",
-    figures: [
-      { src: "/work/loop-today.jpg", width: 780, height: 1688, alt: "Loop app, Today tab", caption: "Today: progress ring, the week's streak, and the day's habits." },
-    ],
-    sections: [
-      {
-        heading: "Notes",
-        blocks: [
-          { list: ["Data stays on the device in AsyncStorage. There is no account and no server.", "Habit and streak logic lives in its own module with its own tests, separate from the screens.", "One codebase exports to a single-page web build, which is how it runs inside a website."] },
-        ],
-      },
     ],
   },
   {
