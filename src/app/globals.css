@@ -1894,3 +1894,169 @@ html:not(.film-on) .beat--hero h1 {
     transition: none !important;
   }
 }
+
+/* ---------- CV, one A4 page ---------- */
+
+.cv__head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 0.75rem 2rem;
+}
+
+.cv__head h1 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-stretch: 125%;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+.cv__title {
+  margin-top: 0.35rem;
+  font: 600 0.8125rem/1 var(--mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.cv__contact {
+  display: grid;
+  justify-items: end;
+  gap: 0.1rem;
+  font: 400 0.8125rem/1.5 var(--mono);
+  color: var(--muted);
+}
+
+.cv__portfolio {
+  padding: 0.6rem 0.9rem;
+  border-inline-start: 3px solid var(--accent);
+  background: var(--surface);
+  font-size: 0.9375rem;
+}
+
+.cv__portfolio a {
+  font-weight: 650;
+  color: var(--accent);
+}
+
+.cv__portfolio span {
+  color: var(--muted);
+}
+
+.cv__summary {
+  font-size: 1rem;
+}
+
+.cv__earlier {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.cv__work p {
+  margin-top: 0.15rem;
+  font-size: 0.9375rem;
+}
+
+.cv__work .cv__row a {
+  font: 500 0.75rem/1.4 var(--mono);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.cv__kind {
+  font: 400 0.6875rem/1 var(--mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  vertical-align: 0.15em;
+}
+
+.cv__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  font-size: 0.875rem;
+}
+
+.cv__h2-gap {
+  margin-top: 1rem;
+}
+
+@media (max-width: 640px) {
+  .cv__contact {
+    justify-items: start;
+  }
+  .cv__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 11mm 13mm;
+  }
+  :root,
+  :root[data-theme="light"] {
+    --bg: #fff;
+    --surface: #f3efe9;
+    --ink: #111;
+    --muted: #4a4a4a;
+    --rule: #c9c9c9;
+    --accent: #9a4a18;
+  }
+  html,
+  body {
+    background: #fff;
+    color: #111;
+  }
+  .cv {
+    max-width: none;
+    gap: 0.7rem;
+    font-size: 9.4pt;
+    line-height: 1.38;
+  }
+  .cv__head h1 {
+    font-size: 21pt;
+  }
+  .cv h2 {
+    margin-bottom: 0.35rem;
+    padding-bottom: 0.2rem;
+  }
+  .cv h3 {
+    font-size: 9.8pt;
+  }
+  .cv__item {
+    margin-bottom: 0.45rem;
+  }
+  .cv li,
+  .cv__work p,
+  .cv__summary,
+  .cv__portfolio,
+  .cv__grid,
+  .cv__earlier {
+    font-size: 9.2pt;
+  }
+  .cv__stack,
+  .cv__contact,
+  .cv__more {
+    font-size: 8pt;
+  }
+  .cv ul {
+    gap: 0.1rem;
+  }
+}
+
+.cv__head {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.cv__contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-items: start;
+  gap: 0.2rem 1.25rem;
+}
